@@ -11,6 +11,8 @@ var scanner = bufio.NewScanner(os.Stdin)
 
 var gamestate GameState
 
+var logfile, _ = os.Create("log.txt")
+
 func Register() {
 	read_line_one()
 	fmt.Printf("{\"faction\": \"Golang\", \"bid\": 0}\n")
@@ -26,6 +28,8 @@ func read_line_one() {
 
 	scanner.Scan()
 
+	logfile.Write(scanner.Bytes())
+
 	err := json.Unmarshal(scanner.Bytes(), &message)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
@@ -37,7 +41,7 @@ func read_line_one() {
 
 func read_update() {
 
-	var message Message2
+	var message Message2			// Allegedly, the agent might actually receive the full gamestate, so this may be wrong.
 
 	scanner.Scan()
 
