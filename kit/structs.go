@@ -76,8 +76,3 @@ type Message1 struct {
 	GameState				GameState						`json:"obs"`
 	// TODO: there's some more fields in this
 }
-
-type Message2 struct {
-	GameStateUpdate			GameStateUpdate					`json:"obs"`
-	// TODO: there's some more fields in this
-}
