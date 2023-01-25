@@ -9,28 +9,27 @@ import (
 
 var scanner = bufio.NewScanner(os.Stdin)
 
-var gamestate GameState
+var gamestate *GameState
 
-func Register() {
+func Register(fn1 func(*GameState), fn2 func(*GameState), fn3 func(*GameState)) {
 	read_update()
-	fmt.Printf("{\"faction\": \"AlphaStrike\", \"bid\": 0}\n")
+	fn1(gamestate)
 	for {
 		read_update()
-		fmt.Printf("{}\n")
+		if gamestate.EnvSteps < 0 {
+			fn2(gamestate)
+		} else {
+			fn3(gamestate)
+		}
 	}
 }
 
 func read_update() {
-
 	var message Message1
-
 	scanner.Scan()
-
 	err := json.Unmarshal(scanner.Bytes(), &message)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
-
-	gamestate = message.GameState
-
+	gamestate = &message.GameState
 }
