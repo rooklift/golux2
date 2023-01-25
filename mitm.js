@@ -22,7 +22,7 @@ let exe_scanner = readline.createInterface({
 
 exe_scanner.on("line", (line) => {
 	process.stdout.write(line);
-	process.stderr.write("\n");
+	process.stdout.write("\n");
 });
 
 // --------------------------------------------------------
