@@ -1,17 +1,41 @@
 package kit
 
-type GameState struct {
-	EnvSteps				int								`json:"real_env_steps"`
-	Board					Board							`json:"board"`			
-	Units					map[string]map[string]Unit		`json:"units"`
-	Factories				map[string]map[string]Factory	`json:"factories"`
-	Teams					map[string]Team					`json:"teams"`
-	// TODO: EnvCfg
+/*	Message schema:
+
+	{
+		player
+		remainingOverageTime
+		step
+		obs: {
+			real_env_steps
+			board {
+				rubble
+				ice
+				ore
+				lichen
+				lichen_strains
+				valid_spawns_mask
+				factories_per_team
+			}
+			units
+			factories
+			teams
+		}
+	}
+
+*/
+
+type Message struct {
+	Obs						Obs								`json:"obs"`
+	Player					string							`json:"player"`
+	RemainingOverageTime	int								`json:"remainingOverageTime"`
+	Step					int								`json:"step"`					// Note: different from real_env_steps
+	// TODO: info.env_cfg
 }
 
-type GameStateUpdate struct {
-	EnvSteps				int								`json:"real_env_steps"`
-	BoardUpdate				Board							`json:"board"`			
+type Obs struct {
+	RealEnvSteps			int								`json:"real_env_steps"`
+	Board					Board							`json:"board"`			
 	Units					map[string]map[string]Unit		`json:"units"`
 	Factories				map[string]map[string]Factory	`json:"factories"`
 	Teams					map[string]Team					`json:"teams"`
@@ -25,14 +49,7 @@ type Board struct {
 	LichenStrains			[][]int							`json:"lichen_strains"`
 	ValidSpawnsMask			[][]bool						`json:"valid_spawns_mask"`
 	FactoriesPerTeam		int								`json:"factories_per_team"`
-	// TODO: FactoryOccupancy (which is not given to us)
-}
-
-type BoardUpdate struct {
-	Rubble					map[string]int					`json:"rubble"`
-	Lichen					map[string]int					`json:"lichen"`
-	LichenStrains			map[string]int					`json:"lichen_strains"`
-	ValidSpawnsMask			[][]bool						`json:"valid_spawns_mask"`				// sent in its entirety
+	// TODO: FactoryOccupancy? (which is not given to us)
 }
 
 type Unit struct {
@@ -70,9 +87,4 @@ type Team struct {
 	FactoryStrains			[]int							`json:"factory_strains"`
 	PlaceFirst				bool							`json:"place_first"`
 	Bid						int								`json:"bid"`
-}
-
-type Message1 struct {
-	GameState				GameState						`json:"obs"`
-	// TODO: there's some more fields in this
 }
