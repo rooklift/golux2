@@ -25,6 +25,10 @@ exe_scanner.on("line", (line) => {
 	process.stdout.write("\n");
 });
 
+exe_scanner.on("close", () => {
+	process.exit(0);
+});
+
 // --------------------------------------------------------
 
 let exe_err_scanner = readline.createInterface({
@@ -49,4 +53,8 @@ let stdin_scanner = readline.createInterface({
 stdin_scanner.on("line", (line) => {
 	exe.stdin.write(line);
 	exe.stdin.write("\n");
+});
+
+stdin_scanner.on("close", () => {
+	process.exit(0);
 });
