@@ -26,13 +26,13 @@ func Register(fn1 func(*Message), fn2 func(*Message), fn3 func(*Message)) {
 }
 
 func read_update() {					
-	var message Message								// Don't try to unmarshal into the already extant last_message since I'm not sure how that works -
-	scanner.Scan()									// in certain situations (maybe not this one) such an act can allow old objects to persist, don't want to worry.
+	var message *Message							// Don't try to unmarshal into the already extant last_message since I'm not sure how that works -
+	scanner.Scan()									// the rules are complex and in many cases old objects can persist; see the literature.
 	logfile.Write(scanner.Bytes())
 	logfile.Write([]byte("\n"))
 	err := json.Unmarshal(scanner.Bytes(), &message)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
-	last_message = &message
+	last_message = message
 }
