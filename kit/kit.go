@@ -37,13 +37,22 @@ func read_line_one() {
 
 func read_update() {
 
-	var update Message2
+	var message Message2
 
 	scanner.Scan()
 
-	err := json.Unmarshal(scanner.Bytes(), &update)
+	err := json.Unmarshal(scanner.Bytes(), &message)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
+
+	update := message.GameStateUpdate
+
+	gamestate.EnvSteps = update.EnvSteps
+	gamestate.Units = update.Units
+	gamestate.Factories = update.Factories
+	gamestate.Teams = update.Teams
+
+	// TODO - parse update.Board
 
 }
