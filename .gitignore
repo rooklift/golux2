@@ -2,3 +2,4 @@
 *.exe
 *.exe~
 log.txt
+*.json
