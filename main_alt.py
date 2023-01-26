@@ -47,8 +47,8 @@ while True:
 	if i > 0:
 		fixup_board = msg_old["obs"]["board"]
 		for key1 in ["rubble", "lichen", "lichen_strains"]:
-			for key2, value in msg["obs"]["board"][key1].items():
-				x, y = [int(z) for z in key2.split(",")]
+			for coords, value in msg["obs"]["board"][key1].items():		# coords is like "22,7"
+				x, y = [int(z) for z in coords.split(",")]
 				fixup_board[key1][x][y] = value
 		msg["obs"]["board"] = fixup_board
 
