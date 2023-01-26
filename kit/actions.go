@@ -1,45 +1,13 @@
 package kit
 
-import (
-	"encoding/json"
-	"fmt"
-	"strings"
-)
-
-var bid_string string
-var placement_string string
-var factory_actions = make(map[string]int)
-var robot_actions = make(map[string][][6]int)
-
-func all_action_cleanups() {
-	bid_string = "{}\n";
-	placement_string = "{}\n";
-	for k, _ := range factory_actions {
-		delete(factory_actions, k)
-	}
-	for k, _ := range robot_actions {
-		delete(robot_actions, k)
-	}
-}
-
-// ------------------------------------------------------------------------------------------------
+import "fmt"
 
 func Bid(faction string, bid int) {
 	bid_string = fmt.Sprintf("{\"faction\": \"%s\", \"bid\": %d}\n", faction, bid)
 }
 
-func send_bid() {
-	fmt.Printf(bid_string)
-}
-
-// ------------------------------------------------------------------------------------------------
-
 func PlaceFactory(x int, y int, metal int, water int) {
 	placement_string = fmt.Sprintf("{\"spawn\": [%d, %d], \"metal\": %d, \"water\": %d}\n", x, y, metal, water)
-}
-
-func send_placement() {
-	fmt.Printf(placement_string)
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -61,6 +29,46 @@ func (self *Factory) Cancel() {
 }
 
 // ------------------------------------------------------------------------------------------------
+// A robot action is a length-6 array as follows:
+// [0] type
+// [1] direction
+// [2] resource
+// [3] amount
+// [4] send_to_back
+// [5] iterations
+
+func ActionQueue(args ...[6]int) [][6]int {
+	var ret [][6]int
+	for _, item := range args {
+		ret = append(ret, item)
+	}
+	return ret
+}
+
+func Action(atype int, direction int, resource int, amount int, send_to_back bool, iterations int) [6]int {
+	return [6]int{atype, direction, resource, amount, bool_to_int(send_to_back), iterations}
+}
+
+/*
+func Move(direction int, send_to_back bool, iterations int) [6]int {
+	return [6]int{MOVE, direction, 0, 0, bool_to_int(send_to_back), iterations}
+}
+func Transfer(direction int, resource int, amount int, send_to_back bool, iterations int) [6]int {
+	return [6]int{TRANSFER, direction, resource, amount, bool_to_int(send_to_back), iterations}
+}
+func Pickup(resource int, amount int, send_to_back bool, iterations int) [6]int {
+	return [6]int{PICKUP, 0, resource, amount, bool_to_int(send_to_back), iterations}
+}
+func Dig(send_to_back bool, iterations int) [6]int {
+	return [6]int{DIG, 0, 0, 0, bool_to_int(send_to_back), iterations}
+}
+func SelfDestruct() [6]int {
+	return [6]int{SELFDESTRUCT, 0, 0, 0, 0, 0}
+}
+func Recharge(amount int, send_to_back bool, iterations int) [6]int {
+	return [6]int{RECHARGE, 0, 0, amount, bool_to_int(send_to_back), iterations}
+}
+*/
 
 func RobotSetQueue(uid string, action_queue [][6]int) {
 	robot_actions[uid] = action_queue
@@ -80,22 +88,6 @@ func (self *Unit) Cancel() {
 
 // ------------------------------------------------------------------------------------------------
 
-func send_actions() {
-
-	var elements []string			// Each element being something like    "factory_0": 1    or    "unit_8": [[0, 1, 0, 0, 0, 1]]
-
-	for key, value := range factory_actions {
-		elements = append(elements, fmt.Sprintf("\"%s\": %d", key, value))
-	}
-
-	for key, value := range robot_actions {
-		js, err := json.Marshal(value)
-		if err != nil {
-			panic(fmt.Sprintf("%v", err))
-		}
-		elements = append(elements, fmt.Sprintf("\"%s\": %s", key, js))
-	}
-
-	internal := strings.Join(elements, ",")
-	fmt.Printf("{" + internal + "}\n")
+func bool_to_int(b bool) int { if b { return 1 }
+	return 0
 }
