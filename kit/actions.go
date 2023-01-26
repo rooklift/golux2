@@ -37,14 +37,6 @@ func (self *Factory) Cancel() {
 // [4] send_to_back
 // [5] iterations
 
-func ActionQueue(args ...[6]int) [][6]int {
-	var ret [][6]int
-	for _, item := range args {
-		ret = append(ret, item)
-	}
-	return ret
-}
-
 func Action(atype int, direction int, resource int, amount int, send_to_back bool, iterations int) [6]int {
 	return [6]int{atype, direction, resource, amount, bool_to_int(send_to_back), iterations}
 }
@@ -70,16 +62,20 @@ func Recharge(amount int, send_to_back bool, iterations int) [6]int {
 }
 */
 
-func RobotSetQueue(uid string, action_queue [][6]int) {
-	robot_actions[uid] = action_queue
+func RobotSetQueue(uid string, args ...[6]int) {
+	var queue [][6]int
+	for _, item := range args {
+		queue = append(queue, item)
+	}
+	robot_actions[uid] = queue
 }
 
 func RobotCancel(uid string) {
 	delete(robot_actions, uid)
 }
 
-func (self *Unit) SetQueue(action_queue [][6]int) {		// Method is just a convenient shorthand for the above.
-	RobotSetQueue(self.UnitId, action_queue)
+func (self *Unit) SetQueue(args ...[6]int) {			// Method is just a convenient shorthand for the above.
+	RobotSetQueue(self.UnitId, args...)
 }
 
 func (self *Unit) Cancel() {
