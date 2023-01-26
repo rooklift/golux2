@@ -31,8 +31,8 @@ func Register(bidder func(), placer func(), mainai func()) {
 
 func update() {
 
-	bid_string = ""								// Clear any user-created messages from earlier...
-	placement_string = ""
+	bid_string = "{}\n"							// Clear any user-created messages from earlier...
+	placement_string = "{}\n"
 
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
 												// the rules are complex and in many cases old objects can persist; see the literature.

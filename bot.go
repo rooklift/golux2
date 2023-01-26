@@ -25,8 +25,6 @@ func factory_placer() {
 				}
 			}
 		}
-	} else {
-		fmt.Printf("{}\n")
 	}
 }
 
