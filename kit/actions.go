@@ -56,6 +56,10 @@ func RobotAct(uid string, action [][]int) {
 	robot_actions[uid] = action
 }
 
+func (self *Unit) Act(action [][]int) {			// Method is just a convenient shorthand for the above.
+	RobotAct(self.UnitId, action)
+}
+
 func send_actions() {
 
 	var elements []string			// Each element being something like    "factory_0": 1    or    "unit_8": [[0, 1, 0, 0, 0, 1]]

@@ -38,4 +38,9 @@ func main_ai() {
 		}
 	}
 
+	if kit.GetMsg().Obs.RealEnvSteps == 1 {
+		for _, unit := range kit.MyUnits() {
+			unit.Act([][]int{{0, 2, 0, 0, 0, 1}})
+		}
+	}
 }

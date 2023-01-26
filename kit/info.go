@@ -31,3 +31,11 @@ func MyFactories() []*Factory {			// FIXME: deterministic order?
 	}
 	return ret
 }
+
+func MyUnits() []*Unit {
+	var ret []*Unit
+	for _, unit := range msg.Obs.Units[MyPlayerId()] {
+		ret = append(ret, unit)
+	}
+	return ret
+}
