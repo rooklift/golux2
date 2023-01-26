@@ -16,6 +16,10 @@ func GetBoard() *Board {
 	return msg.Obs.Board
 }
 
+func RealStep() int {
+	return msg.Obs.RealEnvSteps
+}
+
 func CanPlaceFactory() bool {
 	team := MyTeam()
 	if team.FactoriesToPlace == 0 {

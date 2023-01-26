@@ -31,12 +31,12 @@ func factory_placer() {
 }
 
 func main_ai() {
-	if kit.GetMsg().Obs.RealEnvSteps == 0 {
+	if kit.RealStep() == 0 {
 		for _, factory := range kit.MyFactories() {
 			factory.Act(0)
 		}
 	}
-	if kit.GetMsg().Obs.RealEnvSteps == 1 {
+	if kit.RealStep() == 1 {
 		for _, unit := range kit.MyUnits() {
 			unit.Act(
 				kit.ActionQueue(
