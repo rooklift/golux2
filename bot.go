@@ -10,17 +10,17 @@ func main() {
 }
 
 func bidder() {
-	fmt.Printf("{\"faction\": \"AlphaStrike\", \"bid\": 0}\n")
+	kit.Bid("AlphaStrike", 0)
 }
 
 func factory_placer() {
 	if kit.CanPlaceFactory() {
-		msg := kit.GetMsg()
+		board := kit.GetBoard()
 		spawn_loop:
 		for y := 0; y < 48; y++ {
 			for x := 0; x < 48; x++ {
-				if msg.Obs.Board.ValidSpawnsMask[x][y] {
-					fmt.Printf("{\"spawn\": [%d, %d], \"metal\": 150, \"water\": 150}\n", x, y)
+				if board.ValidSpawnsMask[x][y] {
+					kit.PlaceFactory(x, y, 150, 150)
 					break spawn_loop
 				}
 			}

@@ -12,27 +12,39 @@ var msg *Message
 var scanner = bufio.NewScanner(os.Stdin)
 var logfile, _ = os.Create("log.txt")
 
-func Register(fn1 func(), fn2 func(), fn3 func()) {
-	read_update()
-	fn1()										// Call bidder
+func Register(bidder func(), placer func(), mainai func()) {
+
+	update()
+	bidder()
+	fmt.Printf(bid_string)
+
 	for {
-		read_update()
+		update()
 		if msg.Obs.RealEnvSteps < 0 {
-			fn2()								// Call factory placer
+			placer()
+			fmt.Printf(placement_string)
 		} else {
-			fn3()								// Call main AI
+			mainai()							// Call main AI
 		}
 	}
 }
 
-func read_update() {					
+func update() {
+
+	bid_string = ""								// Clear any user-created messages from earlier...
+	placement_string = ""
+
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
-	scanner.Scan()								// the rules are complex and in many cases old objects can persist; see the literature.
+												// the rules are complex and in many cases old objects can persist; see the literature.
+	scanner.Scan()
+
 	logfile.Write(scanner.Bytes())
 	logfile.Write([]byte("\n"))
+
 	err := json.Unmarshal(scanner.Bytes(), &new_msg)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
+
 	msg = new_msg
 }
