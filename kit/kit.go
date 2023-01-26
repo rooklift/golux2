@@ -8,7 +8,7 @@ import (
 )
 
 var scanner = bufio.NewScanner(os.Stdin)
-var logfile, _ = os.Create("log.txt")
+// var logfile, _ = os.Create("log.txt")
 
 var msg *Message
 
@@ -36,8 +36,8 @@ func update() {
 												// the rules are complex and in many cases old objects can persist; see the literature.
 	scanner.Scan()
 
-	logfile.Write(scanner.Bytes())
-	logfile.Write([]byte("\n"))
+	// logfile.Write(scanner.Bytes())
+	// logfile.Write([]byte("\n"))
 
 	err := json.Unmarshal(scanner.Bytes(), &new_msg)
 	if err != nil {
