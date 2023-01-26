@@ -48,13 +48,17 @@ func FactoryAct(uid string, action int) {
 	factory_actions[uid] = action
 }
 
+func (self *Factory) Act(action int) {			// Method is just a convenient shorthand for the above.
+	FactoryAct(self.UnitId, action)
+}
+
 func RobotAct(uid string, action [][]int) {
 	robot_actions[uid] = action
 }
 
 func send_actions() {
 
-	var elements []string				// Each element being something like    "factory_0": 1    or    "unit_8": [[0, 1, 0, 0, 0, 1]]
+	var elements []string			// Each element being something like    "factory_0": 1    or    "unit_8": [[0, 1, 0, 0, 0, 1]]
 
 	for key, value := range factory_actions {
 		elements = append(elements, fmt.Sprintf("\"%s\": %d", key, value))

@@ -31,9 +31,11 @@ func factory_placer() {
 }
 
 func main_ai() {
+
 	if kit.GetMsg().Obs.RealEnvSteps == 0 {
 		for _, factory := range kit.MyFactories() {
-			kit.FactoryAct(factory.UnitId, 1)
+			factory.Act(1)
 		}
 	}
+
 }
