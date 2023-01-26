@@ -7,10 +7,13 @@ import (
 	"os"
 )
 
-var msg *Message
-
 var scanner = bufio.NewScanner(os.Stdin)
 var logfile, _ = os.Create("log.txt")
+
+var msg *Message
+
+var bid_string string
+var placement_string string
 
 func Register(bidder func(), placer func(), mainai func()) {
 

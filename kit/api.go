@@ -2,9 +2,6 @@ package kit
 
 import "fmt"
 
-var bid_string string
-var placement_string string
-
 func Bid(faction string, bid int) {
 	bid_string = fmt.Sprintf("{\"faction\": \"%s\", \"bid\": %d}\n", faction, bid)
 }
