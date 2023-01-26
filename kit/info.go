@@ -23,3 +23,11 @@ func CanPlaceFactory() bool {
 	}
 	return (team.PlaceFirst && msg.Step % 2 == 1) || (!team.PlaceFirst && msg.Step % 2 == 0)
 }
+
+func MyFactories() []*Factory {			// FIXME: deterministic order?
+	var ret []*Factory
+	for _, factory := range msg.Obs.Factories[MyPlayerId()] {
+		ret = append(ret, factory)
+	}
+	return ret
+}
