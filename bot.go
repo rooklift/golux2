@@ -13,7 +13,7 @@ func main() {
 // Each of these can access state and setup actions...
 
 func bidder() {
-	kit.Bid("MotherMars", 1)
+	kit.Bid("MotherMars", 0)
 }
 
 func factory_placer() {
