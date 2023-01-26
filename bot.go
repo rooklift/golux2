@@ -38,7 +38,7 @@ func main_ai() {
 	}
 	if kit.RealStep() == 1 {
 		for _, unit := range kit.MyUnits() {
-			unit.Act(
+			unit.SetQueue(
 				kit.ActionQueue(
 					kit.MoveAction(kit.RIGHT, true, 1),
 					kit.MoveAction(kit.LEFT, true, 1),

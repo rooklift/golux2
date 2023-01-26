@@ -54,12 +54,20 @@ func (self *Factory) Act(action int) {					// Method is just a convenient shorth
 
 // ------------------------------------------------------------------------------------------------
 
-func RobotAct(uid string, action_queue [][]int) {
+func RobotSetQueue(uid string, action_queue [][]int) {
 	robot_actions[uid] = action_queue
 }
 
-func (self *Unit) Act(action_queue [][]int) {			// Method is just a convenient shorthand for the above.
-	RobotAct(self.UnitId, action_queue)
+func RobotCancel(uid string) {
+	delete(robot_actions, uid)
+}
+
+func (self *Unit) SetQueue(action_queue [][]int) {		// Method is just a convenient shorthand for the above.
+	RobotSetQueue(self.UnitId, action_queue)
+}
+
+func (self *Unit) Cancel() {
+	RobotCancel(self.UnitId)
 }
 
 // ------------------------------------------------------------------------------------------------
