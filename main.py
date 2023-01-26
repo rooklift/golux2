@@ -45,10 +45,7 @@ while True:
 	if i > 0:
 		fixup_board = msg_old["obs"]["board"]
 		for key1 in ["rubble", "lichen", "lichen_strains"]:
-			assert(type(msg["obs"]["board"][key1] == dict))
 			for key2, value in msg["obs"]["board"][key1].items():
-				assert(type(key2) == str)
-				assert(type(value) in [int, float])
 				x, y = [int(z) for z in key2.split(",")]
 				fixup_board[key1][x][y] = value
 		msg["obs"]["board"] = fixup_board
