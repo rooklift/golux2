@@ -48,17 +48,21 @@ func FactoryAct(uid string, action int) {
 	factory_actions[uid] = action
 }
 
-func (self *Factory) Act(action int) {			// Method is just a convenient shorthand for the above.
+func (self *Factory) Act(action int) {					// Method is just a convenient shorthand for the above.
 	FactoryAct(self.UnitId, action)
 }
 
-func RobotAct(uid string, action [][]int) {
-	robot_actions[uid] = action
+// ------------------------------------------------------------------------------------------------
+
+func RobotAct(uid string, action_queue [][]int) {
+	robot_actions[uid] = action_queue
 }
 
-func (self *Unit) Act(action [][]int) {			// Method is just a convenient shorthand for the above.
-	RobotAct(self.UnitId, action)
+func (self *Unit) Act(action_queue [][]int) {			// Method is just a convenient shorthand for the above.
+	RobotAct(self.UnitId, action_queue)
 }
+
+// ------------------------------------------------------------------------------------------------
 
 func send_actions() {
 
