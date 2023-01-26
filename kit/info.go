@@ -1,5 +1,7 @@
 package kit
 
+import "sort"
+
 func MyPlayerId() string {
 	return msg.Player
 }
@@ -28,18 +30,30 @@ func CanPlaceFactory() bool {
 	return (team.PlaceFirst && msg.Step % 2 == 1) || (!team.PlaceFirst && msg.Step % 2 == 0)
 }
 
-func MyFactories() []*Factory {			// FIXME: deterministic order?
+func MyFactories() []*Factory {						// We sort keys for deterministic order
+	my_fact_map := msg.Obs.Factories[MyPlayerId()]
+	var keys []string
+	for key, _ := range my_fact_map {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
 	var ret []*Factory
-	for _, factory := range msg.Obs.Factories[MyPlayerId()] {
-		ret = append(ret, factory)
+	for _, key := range keys {
+		ret = append(ret, my_fact_map[key])
 	}
 	return ret
 }
 
-func MyUnits() []*Unit {				// FIXME: deterministic order?
+func MyUnits() []*Unit {							// We sort keys for deterministic order
+	my_unit_map := msg.Obs.Units[MyPlayerId()]
+	var keys []string
+	for key, _ := range my_unit_map {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
 	var ret []*Unit
-	for _, unit := range msg.Obs.Units[MyPlayerId()] {
-		ret = append(ret, unit)
+	for _, key := range keys {
+		ret = append(ret, my_unit_map[key])
 	}
 	return ret
 }
