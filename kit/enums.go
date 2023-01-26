@@ -2,7 +2,7 @@ package kit
 
 const (
 
-	// Action types
+	// Robot actions
 	MOVE = 0
 	TRANSFER = 1
 	PICKUP = 2
