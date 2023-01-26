@@ -32,7 +32,7 @@ func MyFactories() []*Factory {			// FIXME: deterministic order?
 	return ret
 }
 
-func MyUnits() []*Unit {
+func MyUnits() []*Unit {				// FIXME: deterministic order?
 	var ret []*Unit
 	for _, unit := range msg.Obs.Units[MyPlayerId()] {
 		ret = append(ret, unit)
