@@ -12,31 +12,26 @@ var logfile, _ = os.Create("log.txt")
 
 var msg *Message
 
-var bid_string string
-var placement_string string
-
-func Register(bidder func(), placer func(), mainai func()) {
-
-	update()
-	bidder()
-	fmt.Printf(bid_string)
-
+func Run(bidder func(), placer func(), mainai func()) {
 	for {
 		update()
-		if msg.Obs.RealEnvSteps < 0 {
+		if msg.Step == 0 {
+			bidder()
+			send_bid()
+		} else if msg.Obs.RealEnvSteps < 0 {
 			placer()
-			fmt.Printf(placement_string)
+			send_placement()
 		} else {
-			mainai()							// Call main AI
-			fmt.Printf("{}\n")					// TODO
+			mainai()
+			send_actions()
 		}
 	}
 }
 
 func update() {
 
-	bid_string = "{}\n"							// Clear any user-created messages from earlier...
-	placement_string = "{}\n"
+	bid_string = "{}\n";
+	placement_string = "{}\n";
 
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
 												// the rules are complex and in many cases old objects can persist; see the literature.

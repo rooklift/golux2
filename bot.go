@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"golux2/kit"
 )
 
 func main() {
-	kit.Register(bidder, factory_placer, main_ai)
+	kit.Run(bidder, factory_placer, main_ai)
 }
 
 func bidder() {
