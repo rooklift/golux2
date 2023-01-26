@@ -48,8 +48,16 @@ func FactoryAct(uid string, action int) {
 	factory_actions[uid] = action
 }
 
+func FactoryCancel(uid string) {
+	delete(factory_actions, uid)
+}
+
 func (self *Factory) Act(action int) {					// Method is just a convenient shorthand for the above.
 	FactoryAct(self.UnitId, action)
+}
+
+func (self *Factory) Cancel() {
+	FactoryCancel(self.UnitId)
 }
 
 // ------------------------------------------------------------------------------------------------
