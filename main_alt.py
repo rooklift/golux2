@@ -1,3 +1,5 @@
+# FIXME? allegedly we need to do something about "valid_spawns_mask" perhaps not appearing in later observations?
+
 import atexit, json, os, subprocess, sys, threading
 
 # Spawn...
