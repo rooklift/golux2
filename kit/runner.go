@@ -11,7 +11,6 @@ import (
 var msg *Message
 
 var scanner = bufio.NewScanner(os.Stdin)
-// var logfile, _ = os.Create("log.txt")
 
 var bid_string string
 var placement_string string
@@ -41,10 +40,6 @@ func update() {
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
 												// the rules are complex and in many cases old objects can persist; see the literature.
 	scanner.Scan()
-
-	// logfile.Write(scanner.Bytes())
-	// logfile.Write([]byte("\n"))
-
 	err := json.Unmarshal(scanner.Bytes(), &new_msg)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
