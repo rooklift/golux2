@@ -34,7 +34,7 @@ type Unit struct {
 	UnitType				string							`json:"unit_type"`
 	Pos						[2]int							`json:"pos"`
 	Cargo					*Cargo							`json:"cargo"`
-	ActionQueue				[][]int							`json:"action_queue"`
+	ActionQueue				[][6]int						`json:"action_queue"`
 }
 
 type Factory struct {

@@ -9,7 +9,7 @@ import (
 var bid_string string
 var placement_string string
 var factory_actions = make(map[string]int)
-var robot_actions = make(map[string][][]int)
+var robot_actions = make(map[string][][6]int)
 
 func all_action_cleanups() {
 	bid_string = "{}\n";
@@ -62,7 +62,7 @@ func (self *Factory) Cancel() {
 
 // ------------------------------------------------------------------------------------------------
 
-func RobotSetQueue(uid string, action_queue [][]int) {
+func RobotSetQueue(uid string, action_queue [][6]int) {
 	robot_actions[uid] = action_queue
 }
 
@@ -70,7 +70,7 @@ func RobotCancel(uid string) {
 	delete(robot_actions, uid)
 }
 
-func (self *Unit) SetQueue(action_queue [][]int) {		// Method is just a convenient shorthand for the above.
+func (self *Unit) SetQueue(action_queue [][6]int) {		// Method is just a convenient shorthand for the above.
 	RobotSetQueue(self.UnitId, action_queue)
 }
 

@@ -40,8 +40,8 @@ func main_ai() {
 		for _, unit := range kit.MyUnits() {
 			unit.SetQueue(
 				kit.ActionQueue(
-					kit.MoveAction(kit.RIGHT, true, 1),
-					kit.MoveAction(kit.LEFT, true, 1),
+					kit.Action(kit.MOVE, kit.RIGHT, 0, 0, true, 1),
+					kit.Action(kit.MOVE, kit.LEFT, 0, 0, true, 1),
 				),
 			)
 		}
