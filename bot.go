@@ -13,7 +13,7 @@ func main() {
 // Each of these can access state and setup actions...
 
 func bidder() {
-	kit.Bid("MotherMars", 0)
+	kit.Bid("MotherMars", 1)
 }
 
 func factory_placer() {
@@ -33,7 +33,7 @@ func factory_placer() {
 func main_ai() {
 	if kit.RealStep() == 0 {
 		for _, factory := range kit.MyFactories() {
-			factory.Act(0)
+			factory.Act(kit.LIGHT)
 		}
 	}
 	if kit.RealStep() == 1 {

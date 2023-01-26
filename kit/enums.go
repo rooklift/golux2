@@ -1,6 +1,8 @@
 package kit
 
 const (
+
+	// Action types
 	MOVE = 0
 	TRANSFER = 1
 	PICKUP = 2
@@ -8,6 +10,7 @@ const (
 	SELFDESTRUCT = 4
 	RECHARGE = 5
 
+	// Directions
 	CENTER = 0
 	CENTRE = 0			// The true spelling
 	UP = 1
@@ -19,9 +22,15 @@ const (
 	LEFT = 4
 	WEST = 4
 
+	// Resource types
 	ICE = 0
 	ORE = 1
 	WATER = 2
 	METAL = 3
 	POWER = 4
+
+	// Factory actions
+	LIGHT = 0
+	HEAVY = 1
+	// WATER = 2		// Thankfully matches WATER above
 )
