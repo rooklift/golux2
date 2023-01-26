@@ -7,32 +7,32 @@ import (
 	"os"
 )
 
-var last_message *Message
+var msg *Message
 
 var scanner = bufio.NewScanner(os.Stdin)
 var logfile, _ = os.Create("log.txt")
 
-func Register(fn1 func(*Message), fn2 func(*Message), fn3 func(*Message)) {
+func Register(fn1 func(), fn2 func(), fn3 func()) {
 	read_update()
-	fn1(last_message)								// Call bidder
+	fn1()										// Call bidder
 	for {
 		read_update()
-		if last_message.Obs.RealEnvSteps < 0 {
-			fn2(last_message)						// Call factory placer
+		if msg.Obs.RealEnvSteps < 0 {
+			fn2()								// Call factory placer
 		} else {
-			fn3(last_message)						// Call main AI
+			fn3()								// Call main AI
 		}
 	}
 }
 
 func read_update() {					
-	var message *Message							// Don't try to unmarshal into the already extant last_message since I'm not sure how that works -
-	scanner.Scan()									// the rules are complex and in many cases old objects can persist; see the literature.
+	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
+	scanner.Scan()								// the rules are complex and in many cases old objects can persist; see the literature.
 	logfile.Write(scanner.Bytes())
 	logfile.Write([]byte("\n"))
-	err := json.Unmarshal(scanner.Bytes(), &message)
+	err := json.Unmarshal(scanner.Bytes(), &new_msg)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
-	last_message = message
+	msg = new_msg
 }

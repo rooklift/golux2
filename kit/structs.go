@@ -1,32 +1,7 @@
 package kit
 
-/*	Message schema:
-
-	{
-		player
-		remainingOverageTime
-		step
-		obs: {
-			real_env_steps
-			board {
-				rubble
-				ice
-				ore
-				lichen
-				lichen_strains
-				valid_spawns_mask
-				factories_per_team
-			}
-			units
-			factories
-			teams
-		}
-	}
-
-*/
-
 type Message struct {
-	Obs						Obs								`json:"obs"`
+	Obs						*Obs							`json:"obs"`
 	Player					string							`json:"player"`
 	RemainingOverageTime	int								`json:"remainingOverageTime"`
 	Step					int								`json:"step"`					// Note: different from real_env_steps
@@ -35,10 +10,10 @@ type Message struct {
 
 type Obs struct {
 	RealEnvSteps			int								`json:"real_env_steps"`
-	Board					Board							`json:"board"`			
-	Units					map[string]map[string]Unit		`json:"units"`
-	Factories				map[string]map[string]Factory	`json:"factories"`
-	Teams					map[string]Team					`json:"teams"`
+	Board					*Board							`json:"board"`			
+	Units					map[string]map[string]*Unit		`json:"units"`
+	Factories				map[string]map[string]*Factory	`json:"factories"`
+	Teams					map[string]*Team				`json:"teams"`
 }
 
 type Board struct {
@@ -58,15 +33,8 @@ type Unit struct {
 	Power					int								`json:"power"`
 	UnitType				string							`json:"unit_type"`
 	Pos						[2]int							`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
+	Cargo					*Cargo							`json:"cargo"`
 	ActionQueue				[][]int							`json:"action_queue"`
-}
-
-type Cargo struct {
-	Ice						int								`json:"ice"`
-	Ore						int								`json:"ore"`
-	Water					int								`json:"water"`
-	Metal					int								`json:"metal"`
 }
 
 type Factory struct {
@@ -74,8 +42,15 @@ type Factory struct {
 	UnitId					string							`json:"unit_id"`
 	Power					int								`json:"power"`
 	Pos						[2]int							`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
+	Cargo					*Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`
+}
+
+type Cargo struct {
+	Ice						int								`json:"ice"`
+	Ore						int								`json:"ore"`
+	Water					int								`json:"water"`
+	Metal					int								`json:"metal"`
 }
 
 type Team struct {
