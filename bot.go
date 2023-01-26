@@ -28,5 +28,5 @@ func factory_placer() {
 }
 
 func main_ai() {
-	fmt.Printf("{}\n")
+	return
 }

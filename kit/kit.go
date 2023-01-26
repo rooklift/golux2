@@ -28,6 +28,7 @@ func Register(bidder func(), placer func(), mainai func()) {
 			fmt.Printf(placement_string)
 		} else {
 			mainai()							// Call main AI
+			fmt.Printf("{}\n")					// TODO
 		}
 	}
 }
