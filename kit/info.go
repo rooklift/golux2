@@ -3,20 +3,18 @@ package kit
 import "sort"
 
 func MyPlayerId() string {
-	return msg.Player
+	ret := msg.Player
+	if ret != "player_0" && ret != "player_1" {
+		panic("player was neither player_0 nor player_1 - this violates some assumptions")
+	}
+	return ret
 }
 
 func TheirPlayerId() string {
-	_, ok := msg.Obs.Teams[MyPlayerId()]		// Sanity check that msg.Obs.Teams at least contains my id
-	if (!ok) {
-		panic("TheirPlayerId(): sanity check failed")
+	if MyPlayerId() == "player_0" {
+		return "player_1"
 	}
-	for key, _ := range msg.Obs.Teams {
-		if key != MyPlayerId() {
-			return key
-		}
-	}
-	panic("TheirPlayerId(): failed to get result")
+	return "player_0"
 }
 
 func MyTeam() *Team {
