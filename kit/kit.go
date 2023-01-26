@@ -30,8 +30,7 @@ func Run(bidder func(), placer func(), mainai func()) {
 
 func update() {
 
-	bid_string = "{}\n";
-	placement_string = "{}\n";
+	all_action_cleanups()
 
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
 												// the rules are complex and in many cases old objects can persist; see the literature.
