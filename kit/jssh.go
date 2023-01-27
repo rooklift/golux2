@@ -12,10 +12,10 @@ import (
 	"os"
 )
 
-type JSSH struct {					// JSON Stdin Stream Helper
-	buffer		[]byte
-	stream		*bufio.Reader
-	paused		bool				// true if we hit a newline in source
+type JSSH struct {						// JSON Stdin Stream Helper
+	buffer			[]byte
+	bufio_reader	*bufio.Reader
+	paused			bool				// true if we hit a newline in source
 }
 
 // The plan:
@@ -24,7 +24,7 @@ type JSSH struct {					// JSON Stdin Stream Helper
 
 func new_jssh() *JSSH {
 	ret := new(JSSH)
-	ret.stream = bufio.NewReader(os.Stdin)
+	ret.bufio_reader = bufio.NewReader(os.Stdin)
 	return ret
 }
 
@@ -55,7 +55,7 @@ func (self *JSSH) read_while_unpaused(p []byte) (int, error) {
 	if len(self.buffer) > 0 {
 		return self.perform_transfer(p)
 	} else {
-		line, is_prefix, err := self.stream.ReadLine()
+		line, is_prefix, err := self.bufio_reader.ReadLine()
 		if err != nil {
 			return 0, err
 		}
