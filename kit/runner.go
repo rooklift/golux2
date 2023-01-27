@@ -3,13 +3,17 @@ package kit
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 )
 
 var msg *Message
 
-var jssh = new_jssh()
-var decoder = json.NewDecoder(jssh)
+var decoder = json.NewDecoder(os.Stdin)
+
+// Decoders are best for streaming very large lines, I guess. Although the docs claim that a Decoder
+// "may read data from r beyond the JSON values requested" it seems that won't happen in practice if
+// the thing being read is a whole {}-surrounded object. See https://github.com/golang/go/issues/3942
 
 var bid_string string
 var placement_string string
@@ -33,17 +37,11 @@ func Run(bidder func(), placer func(), main_ai func()) {
 }
 
 func update() {
-
 	all_action_cleanups()
-
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
-												// the rules are complex and in many cases old objects can persist; see the literature.
-	decoder.Decode(&new_msg)
-	jssh.Unpause()
-
+	decoder.Decode(&new_msg)					// the rules are complex and in many cases old objects can persist; see the literature.
 	msg = new_msg
 	fix_factory_occupancy(msg.Obs.Board)
-
 }
 
 func all_action_cleanups() {
