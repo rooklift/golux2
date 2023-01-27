@@ -46,6 +46,8 @@ func update() {
 	}
 
 	msg = new_msg
+	fix_factory_occupancy(msg.Obs.Board)
+
 }
 
 func all_action_cleanups() {
@@ -56,6 +58,17 @@ func all_action_cleanups() {
 	}
 	for k, _ := range robot_actions {
 		delete(robot_actions, k)
+	}
+}
+
+func fix_factory_occupancy(board *Board) {
+	board.FactoryOccupancy = make_2d_int_slice(Width(), Height(), -1)
+	for _, factory := range AllFactories() {
+		for x := factory.Pos[0] - 1; x <= factory.Pos[0] + 1; x++ {
+			for y := factory.Pos[1] - 1; y <= factory.Pos[1] + 1; y++ {
+				board.FactoryOccupancy[x][y] = factory.StrainId
+			}
+		}
 	}
 }
 

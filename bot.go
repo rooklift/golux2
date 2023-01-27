@@ -14,9 +14,6 @@ func main() {
 
 func bidder() {
 	kit.CreateLog(kit.MyPlayerId() + ".log")
-	kit.Log("Starting up... successfully loaded board:")
-	kit.Log(kit.BoardASCII())
-
 	kit.Bid("MotherMars", 0)
 }
 
@@ -36,6 +33,7 @@ func factory_placer() {
 
 func main_ai() {
 	if kit.RealStep() == 0 {
+		kit.Log(kit.BoardASCII())
 		for _, factory := range kit.MyFactories() {
 			factory.Act(kit.LIGHT)
 		}

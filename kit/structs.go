@@ -27,8 +27,8 @@ type Board struct {
 	Lichen					[][]int							`json:"lichen"`
 	LichenStrains			[][]int							`json:"lichen_strains"`
 	ValidSpawnsMask			[][]bool						`json:"valid_spawns_mask"`
+	FactoryOccupancy		[][]int															// This is generated client side
 	FactoriesPerTeam		int								`json:"factories_per_team"`
-	// TODO: FactoryOccupancy? (which is not given to us)
 }
 
 type Unit struct {
