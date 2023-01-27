@@ -24,6 +24,10 @@ func TheirFactories() []*Factory {
 	return get_factories(TheirPlayerId())
 }
 
+func AllFactories() []*Factory {
+	return append(MyFactories(), TheirFactories()...)				// Safe since these slices are constructed in the moment
+}
+
 func CanPlaceFactory() bool {
 	team := MyTeam()
 	if team.FactoriesToPlace == 0 {
