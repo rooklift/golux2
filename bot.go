@@ -14,7 +14,9 @@ func main() {
 
 func bidder() {
 	kit.CreateLog(kit.MyPlayerId() + ".log")
-	kit.Log(kit.WorldASCII())
+	kit.Log("Starting up... successfully loaded board:")
+	kit.Log(kit.BoardASCII())
+
 	kit.Bid("MotherMars", 0)
 }
 
