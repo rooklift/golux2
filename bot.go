@@ -13,6 +13,8 @@ func main() {
 // Each of these can access state and setup actions...
 
 func bidder() {
+	kit.CreateLog(kit.MyPlayerId() + ".log")
+	kit.Log(kit.WorldASCII())
 	kit.Bid("MotherMars", 0)
 }
 
