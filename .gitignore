@@ -6,3 +6,4 @@ log.txt
 *.log
 bot
 *.gz
+sub/*
