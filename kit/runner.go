@@ -17,7 +17,7 @@ var placement_string string
 var factory_actions = make(map[string]int)
 var robot_actions = make(map[string][][6]int)
 
-func Run(bidder func(), placer func(), mainai func()) {
+func Run(bidder func(), placer func(), main_ai func()) {
 	for {
 		update()
 		if msg.Step == 0 {
@@ -27,7 +27,7 @@ func Run(bidder func(), placer func(), mainai func()) {
 			placer()
 			send_placement()
 		} else {
-			mainai()
+			main_ai()
 			send_actions()
 		}
 	}
