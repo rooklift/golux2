@@ -19,11 +19,11 @@ func make_2d_int_slice(width int, height int, content int) [][]int {
 	return ret
 }
 
-func BoardASCII() string {
+func (self *Frame) BoardASCII() string {
 	var elements []string
-	board := GetBoard()
-	for y := 0; y < Height(); y++ {
-		for x := 0; x < Width(); x++ {
+	board := self.GetBoard()
+	for y := 0; y < self.Height(); y++ {
+		for x := 0; x < self.Width(); x++ {
 			s := "  "
 			if board.FactoryOccupancy[x][y] > -1 {
 				s = " @"

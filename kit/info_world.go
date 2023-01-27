@@ -1,21 +1,17 @@
 package kit
 
-func GetMsg() *Message {
-	return msg
+func (self *Frame) GetBoard() *Board {
+	return self.Obs.Board
 }
 
-func GetBoard() *Board {
-	return msg.Obs.Board
+func (self *Frame) RealStep() int {
+	return self.Obs.RealEnvSteps
 }
 
-func RealStep() int {
-	return msg.Obs.RealEnvSteps
+func (self *Frame) Width() int {
+	return len(self.GetBoard().Rubble)
 }
 
-func Width() int {
-	return len(GetBoard().Rubble)
-}
-
-func Height() int {
-	return len(GetBoard().Rubble[0])
+func (self *Frame) Height() int {
+	return len(self.GetBoard().Rubble[0])
 }

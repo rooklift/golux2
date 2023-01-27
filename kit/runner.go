@@ -7,57 +7,49 @@ import (
 	"strings"
 )
 
-var msg *Message
-
+var frame *Frame
 var decoder = json.NewDecoder(os.Stdin)
 
 // Decoders are best for streaming very large lines, I guess. Although the docs claim that a Decoder
 // "may read data from r beyond the JSON values requested" it seems that won't happen in practice if
 // the thing being read is a whole {}-surrounded object. See https://github.com/golang/go/issues/3942
 
-var bid_string string
-var placement_string string
-var factory_actions = make(map[string]int)
-var robot_actions = make(map[string][][6]int)
-
-func Run(bidder func(), placer func(), main_ai func()) {
+func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	for {
-		update()
-		if msg.Step == 0 {
-			bidder()
-			send_bid()
-		} else if msg.Obs.RealEnvSteps < 0 {
-			placer()
-			send_placement()
+		frame = make_next_frame()
+		if frame.Step == 0 {
+			bidder(frame)
+			frame.send_bid()
+		} else if frame.Obs.RealEnvSteps < 0 {
+			placer(frame)
+			frame.send_placement()
 		} else {
-			main_ai()
-			send_actions()
+			main_ai(frame)
+			frame.send_actions()
 		}
 	}
 }
 
-func update() {
-	all_action_cleanups()
-	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
-	decoder.Decode(&new_msg)					// the rules are complex and in many cases old objects can persist; see the literature.
-	msg = new_msg
-	fix_factory_occupancy(msg.Obs.Board)
+func make_next_frame() *Frame {
+	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
+	decoder.Decode(&f)					// the rules are complex and in many cases old stuff can persist; see the literature.
+	f.clear_actions()
+	f.fix_factory_occupancy()
+	f.fix_pointers()
+	return f
 }
 
-func all_action_cleanups() {
-	bid_string = "{}\n";
-	placement_string = "{}\n";
-	for k, _ := range factory_actions {
-		delete(factory_actions, k)
-	}
-	for k, _ := range robot_actions {
-		delete(robot_actions, k)
-	}
+func (self *Frame) clear_actions() {
+	self.bid_string = "{}\n";
+	self.placement_string = "{}\n";
+	self.factory_actions = make(map[string]int)
+	self.unit_actions = make(map[string][][6]int)
 }
 
-func fix_factory_occupancy(board *Board) {
-	board.FactoryOccupancy = make_2d_int_slice(Width(), Height(), -1)
-	for _, factory := range AllFactories() {
+func (self *Frame) fix_factory_occupancy() {
+	board := self.Obs.Board
+	board.FactoryOccupancy = make_2d_int_slice(self.Width(), self.Height(), -1)
+	for _, factory := range self.AllFactories() {
 		for x := factory.Pos[0] - 1; x <= factory.Pos[0] + 1; x++ {
 			for y := factory.Pos[1] - 1; y <= factory.Pos[1] + 1; y++ {
 				board.FactoryOccupancy[x][y] = factory.StrainId
@@ -66,20 +58,29 @@ func fix_factory_occupancy(board *Board) {
 	}
 }
 
-func send_bid() {
-	fmt.Printf(bid_string)
+func (self *Frame) fix_pointers() {
+	for _, unit := range self.AllUnits() {
+		unit.Frame = self
+	}
+	for _, factory := range self.AllFactories() {
+		factory.Frame = self
+	}
 }
 
-func send_placement() {
-	fmt.Printf(placement_string)
+func (self *Frame) send_bid() {
+	fmt.Printf(self.bid_string)
 }
 
-func send_actions() {
+func (self *Frame) send_placement() {
+	fmt.Printf(self.placement_string)
+}
+
+func (self *Frame) send_actions() {
 	var elements []string						// Each element being something like    "factory_0": 1    or    "unit_8": [[0, 1, 0, 0, 0, 1]]
-	for key, value := range factory_actions {
+	for key, value := range self.factory_actions {
 		elements = append(elements, fmt.Sprintf("\"%s\": %d", key, value))
 	}
-	for key, value := range robot_actions {
+	for key, value := range self.unit_actions {
 		js, err := json.Marshal(value)
 		if err != nil {
 			panic(fmt.Sprintf("%v", err))

@@ -2,8 +2,8 @@ package kit
 
 import "sort"
 
-func get_units(playerid string) []*Unit {							// We sort keys for deterministic order
-	unit_map := msg.Obs.Units[playerid]
+func (self *Frame) get_units(playerid string) []*Unit {			// We sort keys for deterministic order
+	unit_map := self.Obs.Units[playerid]
 	var keys []string
 	for key, _ := range unit_map {
 		keys = append(keys, key)
@@ -16,10 +16,14 @@ func get_units(playerid string) []*Unit {							// We sort keys for deterministi
 	return ret
 }
 
-func MyUnits() []*Unit {
-	return get_units(MyPlayerId())
+func (self *Frame) MyUnits() []*Unit {
+	return self.get_units(self.MyPlayerId())
 }
 
-func TheirUnits() []*Unit {
-	return get_units(TheirPlayerId())
+func (self *Frame) TheirUnits() []*Unit {
+	return self.get_units(self.TheirPlayerId())
+}
+
+func (self *Frame) AllUnits() []*Unit {
+	return append(self.MyUnits(), self.TheirUnits()...)			// Safe since these slices are constructed in the moment
 }

@@ -5,9 +5,9 @@ import (
 	"math"
 )
 
-func CfgInt(key string) (int, error) {
+func (self *Frame) CfgInt(key string) (int, error) {
 
-	val, ok := msg.Info.EnvCfg[key]
+	val, ok := self.Info.EnvCfg[key]
 	if ok == false {
 		return 0, fmt.Errorf("Key \"%s\" not in env_cfg dict")
 	}
@@ -20,9 +20,9 @@ func CfgInt(key string) (int, error) {
 	}
 }
 
-func CfgFloat(key string) (float64, error) {
+func (self *Frame) CfgFloat(key string) (float64, error) {
 
-	val, ok := msg.Info.EnvCfg[key]
+	val, ok := self.Info.EnvCfg[key]
 	if ok == false {
 		return 0, fmt.Errorf("Key \"%s\" not in env_cfg dict")
 	}

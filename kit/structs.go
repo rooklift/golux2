@@ -1,11 +1,16 @@
 package kit
 
-type Message struct {
+type Frame struct {
 	Obs						*Obs							`json:"obs"`
 	Player					string							`json:"player"`
 	RemainingOverageTime	int								`json:"remainingOverageTime"`
 	Step					int								`json:"step"`					// Note: different from real_env_steps
 	Info					*Info							`json:"info"`
+
+	bid_string				string
+	placement_string		string
+	factory_actions			map[string]int
+	unit_actions			map[string][][6]int
 }
 
 type Info struct {
@@ -39,6 +44,8 @@ type Unit struct {
 	Pos						[2]int							`json:"pos"`
 	Cargo					*Cargo							`json:"cargo"`
 	ActionQueue				[][6]int						`json:"action_queue"`
+
+	Frame					*Frame							// Needed so unit methods can store their actions in the frame
 }
 
 type Factory struct {
@@ -48,6 +55,8 @@ type Factory struct {
 	Pos						[2]int							`json:"pos"`
 	Cargo					*Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`
+
+	Frame					*Frame							// Needed so factory methods can store their actions in the frame
 }
 
 type Cargo struct {

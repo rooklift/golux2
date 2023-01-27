@@ -2,30 +2,22 @@ package kit
 
 import "fmt"
 
-func Bid(faction string, bid int) {
-	bid_string = fmt.Sprintf("{\"faction\": \"%s\", \"bid\": %d}\n", faction, bid)
+func (self *Frame) Bid(faction string, bid int) {
+	self.bid_string = fmt.Sprintf("{\"faction\": \"%s\", \"bid\": %d}\n", faction, bid)
 }
 
-func PlaceFactory(x int, y int, metal int, water int) {
-	placement_string = fmt.Sprintf("{\"spawn\": [%d, %d], \"metal\": %d, \"water\": %d}\n", x, y, metal, water)
+func (self *Frame) PlaceFactory(x int, y int, metal int, water int) {
+	self.placement_string = fmt.Sprintf("{\"spawn\": [%d, %d], \"metal\": %d, \"water\": %d}\n", x, y, metal, water)
 }
 
 // ------------------------------------------------------------------------------------------------
 
-func FactoryAct(uid string, action int) {
-	factory_actions[uid] = action
-}
-
-func FactoryCancel(uid string) {
-	delete(factory_actions, uid)
-}
-
-func (self *Factory) Act(action int) {					// Method is just a convenient shorthand for the above.
-	FactoryAct(self.UnitId, action)
+func (self *Factory) Act(action int) {
+	self.Frame.factory_actions[self.UnitId] = action
 }
 
 func (self *Factory) Cancel() {
-	FactoryCancel(self.UnitId)
+	delete(self.Frame.factory_actions, self.UnitId)
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -41,22 +33,14 @@ func Action(atype int, direction int, resource int, amount int, send_to_back boo
 	return [6]int{atype, direction, resource, amount, bool_to_int(send_to_back), iterations}
 }
 
-func RobotSetQueue(uid string, args ...[6]int) {
+func (self *Unit) SetQueue(args ...[6]int) {
 	var queue [][6]int
 	for _, item := range args {
 		queue = append(queue, item)
 	}
-	robot_actions[uid] = queue
-}
-
-func RobotCancel(uid string) {
-	delete(robot_actions, uid)
-}
-
-func (self *Unit) SetQueue(args ...[6]int) {			// Method is just a convenient shorthand for the above.
-	RobotSetQueue(self.UnitId, args...)
+	self.Frame.unit_actions[self.UnitId] = queue
 }
 
 func (self *Unit) Cancel() {
-	RobotCancel(self.UnitId)
+	delete(self.Frame.unit_actions, self.UnitId)
 }
