@@ -5,3 +5,4 @@ log.txt
 *.json
 *.log
 bot
+*.gz
