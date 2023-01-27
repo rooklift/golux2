@@ -95,7 +95,12 @@ def agent(observation, configuration):
 	agent_process = agent_processes[observation.player]
 	### Do not edit ###
 	if agent_process is None:
-		agent_process = Popen(["bot.exe"], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=cwd)
+		if os.path.exists("bot.exe"):
+			agent_process = Popen(["bot.exe"], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=cwd)
+		elif os.path.exists("bot"):
+			agent_process = Popen(["bot"], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=cwd)
+		else:
+			assert(1 == 0)
 		agent_processes[observation.player] = agent_process
 		atexit.register(cleanup_process)
 
