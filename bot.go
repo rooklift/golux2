@@ -12,18 +12,18 @@ func main() {
 
 // Each of these can access state and setup actions...
 
-func bidder() {
-	kit.CreateLog(kit.MyPlayerId() + ".log")
-	kit.Bid("MotherMars", 0)
+func bidder(f *kit.Frame) {
+	kit.CreateLog(f.MyPlayerId() + ".log")
+	f.Bid("MotherMars", 0)
 }
 
-func factory_placer() {
-	if kit.CanPlaceFactory() {
-		board := kit.GetBoard()
+func factory_placer(f *kit.Frame) {
+	if f.CanPlaceFactory() {
+		board := f.GetBoard()
 		for y := 0; y < 48; y++ {
 			for x := 0; x < 48; x++ {
 				if board.ValidSpawnsMask[x][y] {
-					kit.PlaceFactory(x, y, 150, 150)
+					f.PlaceFactory(x, y, 150, 150)
 					return
 				}
 			}
@@ -31,15 +31,15 @@ func factory_placer() {
 	}
 }
 
-func main_ai() {
-	if kit.RealStep() == 0 {
-		kit.Log(kit.BoardASCII())
-		for _, factory := range kit.MyFactories() {
+func main_ai(f *kit.Frame) {
+	if f.RealStep() == 0 {
+		kit.Log(f.BoardASCII())
+		for _, factory := range f.MyFactories() {
 			factory.Act(kit.LIGHT)
 		}
 	}
-	if kit.RealStep() == 1 {
-		for _, unit := range kit.MyUnits() {
+	if f.RealStep() == 1 {
+		for _, unit := range f.MyUnits() {
 			unit.SetQueue(
 				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, true, 1),
 				kit.Action(kit.MOVE, kit.LEFT, 0, 0, true, 1),
