@@ -11,7 +11,7 @@ import os
 import sys
 
 
-### Feel free to change this! If above 0, when acting in the normal phase of the game you will receive a list of observations, not just one
+### [Edit: DO NOT] Feel free to change this! If above 0, when acting in the normal phase of the game you will receive a list of observations, not just one
 FORWARD_SIM = 0
 
 
