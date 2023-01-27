@@ -1,16 +1,15 @@
 package kit
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 )
 
 var msg *Message
 
-var scanner = bufio.NewScanner(os.Stdin)
+var jssh = new_jssh()
+var decoder = json.NewDecoder(jssh)
 
 var bid_string string
 var placement_string string
@@ -39,11 +38,8 @@ func update() {
 
 	var new_msg *Message						// Don't try to unmarshal into the already extant message since I'm not sure how that works -
 												// the rules are complex and in many cases old objects can persist; see the literature.
-	scanner.Scan()
-	err := json.Unmarshal(scanner.Bytes(), &new_msg)
-	if err != nil {
-		panic(fmt.Sprintf("%v", err))
-	}
+	decoder.Decode(&new_msg)
+	jssh.Unpause()
 
 	msg = new_msg
 	fix_factory_occupancy(msg.Obs.Board)
