@@ -5,7 +5,11 @@ type Message struct {
 	Player					string							`json:"player"`
 	RemainingOverageTime	int								`json:"remainingOverageTime"`
 	Step					int								`json:"step"`					// Note: different from real_env_steps
-	// TODO: info.env_cfg
+	Info					*Info							`json:"info"`
+}
+
+type Info struct {
+	EnvCfg					map[string]interface{}			`json:"env_cfg"`				// Lame, should we have a fully-specced struct?
 }
 
 type Obs struct {
