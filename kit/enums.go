@@ -32,10 +32,11 @@ const (
 		METAL = 3
 		POWER = 4
 
-	// Factory actions
+	// Robot types
 
 		LIGHT = 0
 		HEAVY = 1
-		// WATER = 2		// Thankfully matches WATER above
+
+	// Note that factory actions are either creating a light (0) or heavy (1) robot, or watering (2)
 
 )
