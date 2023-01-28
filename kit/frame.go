@@ -11,7 +11,7 @@ var decoder = json.NewDecoder(os.Stdin)
 // "may read data from r beyond the JSON values requested" it seems that won't happen in practice if
 // the thing being read is a whole {}-surrounded object. See https://github.com/golang/go/issues/3942
 
-func make_next_frame() *Frame {
+func make_next_frame(old_frame *Frame) *Frame {
 
 	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
 	decoder.Decode(&f)					// the rules are complex and in many cases old stuff can persist; see the literature.
@@ -41,6 +41,14 @@ func make_next_frame() *Frame {
 	}
 	for _, factory := range f.AllFactories() {
 		factory.Frame = f
+	}
+
+	// In the future I might conceivably get main.py to stop sending cfg each turn...
+
+	if old_frame != nil {
+		if len(f.Info.EnvCfg) < len(old_frame.Info.EnvCfg) {
+			f.Info.EnvCfg = old_frame.Info.EnvCfg
+		}
 	}
 
 	return f

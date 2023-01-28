@@ -15,7 +15,7 @@ var frame *Frame
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	for {
-		frame = make_next_frame()
+		frame = make_next_frame(frame)
 		if frame.Step == 0 {
 			bidder(frame)
 			frame.send_bid()
