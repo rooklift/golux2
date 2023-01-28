@@ -16,6 +16,6 @@ Very raw, non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-C
 
 ## Notes on internal data structures
 
-* The main data structure is the "Frame", which is simply the JSON message sent by `main.py`, unmarshalled.
-* Since the structure of that is fairly disorganised, "Frame" is disorganised too.
-* Some helper functions are included to quickly get needed items, e.g. `frame.GetBoard()`, `frame.MyFactories()`, etc.
+* The main data structure is the *Frame* type, which is simply the JSON message sent by `main.py`, unmarshalled.
+* Since the structure of that is fairly disorganised, *Frame* is disorganised too.
+* Some helper methods are included to quickly get needed items, e.g. *GetBoard()*, *MyFactories()*, etc.
