@@ -11,7 +11,7 @@ func (self *Frame) Bid(faction string, bid int) {
 }
 
 func (self *Frame) PlaceFactory(x int, y int, metal int, water int) {
-	self.placement_string = fmt.Sprintf("{\"spawn\": [%d, %d], \"metal\": %d, \"water\": %d}", x, y, metal, water)
+	self.placement_string = fmt.Sprintf("{\"spawn\": [%d,%d], \"metal\": %d, \"water\": %d}", x, y, metal, water)
 }
 
 func (self *Frame) send(s string) {
@@ -49,6 +49,6 @@ func (self *Frame) send_actions() {
 		elements = append(elements, fmt.Sprintf("\"%s\": %s", key, js))
 	}
 
-	self.send("{" + strings.Join(elements, ",") + "}")
-	
+	self.send("{" + strings.Join(elements, ", ") + "}")
+
 }
