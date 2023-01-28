@@ -35,3 +35,13 @@ func (self *Frame) CanPlaceFactory() bool {
 	}
 	return (team.PlaceFirst && self.Step % 2 == 1) || (!team.PlaceFirst && self.Step % 2 == 0)
 }
+
+// ------------------------------------------------------------------------------------------------
+
+func (self *Factory) X() int {
+	return self.Pos[0]
+}
+
+func (self *Factory) Y() int {
+	return self.Pos[1]
+}

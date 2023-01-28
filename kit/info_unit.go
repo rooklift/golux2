@@ -27,3 +27,13 @@ func (self *Frame) TheirUnits() []*Unit {
 func (self *Frame) AllUnits() []*Unit {
 	return append(self.MyUnits(), self.TheirUnits()...)			// Safe since these slices are constructed in the moment
 }
+
+// ------------------------------------------------------------------------------------------------
+
+func (self *Unit) X() int {
+	return self.Pos[0]
+}
+
+func (self *Unit) Y() int {
+	return self.Pos[1]
+}
