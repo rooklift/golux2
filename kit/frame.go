@@ -23,7 +23,7 @@ func make_next_frame() *Frame {
 	f.factory_actions = make(map[string]int)
 	f.unit_actions = make(map[string][][6]int)
 
-	// Fix the FactoryOccupancy map...
+	// Create the FactoryOccupancy map...
 
 	f.Obs.Board.FactoryOccupancy = make_2d_int_slice(f.Width(), f.Height(), -1)
 	for _, factory := range f.AllFactories() {
