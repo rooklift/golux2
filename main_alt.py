@@ -48,11 +48,14 @@ while True:
 	if i > 0:
 		fixup_board = msg_old["obs"]["board"]
 		for key1 in ["rubble", "lichen", "lichen_strains"]:
-			for coords, value in msg["obs"]["board"][key1].items():		# coords is like "22,7"
+			for coords, value in msg["obs"]["board"][key1].items():							# Note that coords is like "22,7"
 				x, y = [int(z) for z in coords.split(",")]
 				fixup_board[key1][x][y] = value
 		if "valid_spawns_mask" in msg["obs"]["board"]:
-			fixup_board["valid_spawns_mask"] = msg["obs"]["board"]["valid_spawns_mask"]
+			fixup_board["valid_spawns_mask"] = msg["obs"]["board"]["valid_spawns_mask"]		# Since we are reusing the old board, must put this new array into it.
+		else:
+			if "valid_spawns_mask" in fixup_board:
+				del fixup_board["valid_spawns_mask"]										# Don't bother sending this if it's not in the raw input
 
 		msg["obs"]["board"] = fixup_board
 

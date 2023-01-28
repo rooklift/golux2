@@ -51,5 +51,12 @@ func make_next_frame(old_frame *Frame) *Frame {
 		}
 	}
 
+	// In the future I might conceivably get main.py to not send valid_spawns_mask once we reach RealStep 0
+	// But I guess I'll fill it up with false values just for consistency...
+
+	if len(f.Obs.Board.ValidSpawnsMask) < f.Width() {
+		f.Obs.Board.ValidSpawnsMask = make_2d_bool_slice(f.Width(), f.Height(), false)
+	}
+
 	return f
 }
