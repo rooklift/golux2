@@ -36,12 +36,10 @@ func main_ai(f *kit.Frame) {
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
 			unit.SetQueue(
-				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, 0, 1),
-				kit.Action(kit.MOVE, kit.DOWN, 0, 0, 0, 1),
-				kit.Action(kit.MOVE, kit.LEFT, 0, 0, 2, 2),
-				kit.Action(kit.MOVE, kit.UP, 0, 0, 2, 2),
-				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, 2, 2),
-				kit.Action(kit.MOVE, kit.DOWN, 0, 0, 2, 2),
+				kit.Action(kit.MOVE, kit.LEFT, 0, 0, 2, 1),		// If you understand these numbers
+				kit.Action(kit.MOVE, kit.UP, 0, 0, 2, 1),		// you understand the action system
+				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, 2, 2),	// though note they are only valid
+				kit.Action(kit.MOVE, kit.DOWN, 0, 0, 2, 2),		// after Lux 2.1.0
 			)
 		}
 	}
