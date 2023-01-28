@@ -1,7 +1,5 @@
 package kit
 
-import "strings"
-
 func bool_to_int(b bool) int {
 	if b {
 		return 1
@@ -20,26 +18,4 @@ func make_2d_int_slice(width int, height int, content int) [][]int {
 		}
 	}
 	return ret
-}
-
-func (self *Frame) BoardASCII() string {
-	var elements []string
-	board := self.GetBoard()
-	for y := 0; y < self.Height(); y++ {
-		for x := 0; x < self.Width(); x++ {
-			s := "  "
-			if board.FactoryOccupancy[x][y] > -1 {
-				s = " @"
-			} else if board.Ore[x][y] > 0 {
-				s = " O"
-			} else if board.Ice[x][y] > 0 {
-				s = " X"
-			} else if board.Rubble[x][y] > 0 {
-				s = " ."
-			}
-			elements = append(elements, s)
-		}
-		elements = append(elements, "\n")
-	}
-	return strings.Join(elements, "")
 }
