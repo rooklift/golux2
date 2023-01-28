@@ -14,7 +14,7 @@ type Frame struct {
 }
 
 type Info struct {
-	EnvCfg					map[string]interface{}			`json:"env_cfg"`				// Lame, should we have a fully-specced struct?
+	EnvCfg					map[string]interface{}			`json:"env_cfg"`				// Lazy, should we have a fully-specced struct?
 }
 
 type Obs struct {
