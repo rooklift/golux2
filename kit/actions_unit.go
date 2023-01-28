@@ -1,7 +1,7 @@
 package kit
 
-func Action(atype int, direction int, resource int, amount int, send_to_back bool, iterations int) [6]int {
-	return [6]int{atype, direction, resource, amount, bool_to_int(send_to_back), iterations}
+func Action(atype int, direction int, resource int, amount int, recycle int, iterations int) [6]int {
+	return [6]int{atype, direction, resource, amount, recycle, iterations}
 }
 
 func (self *Unit) SetQueue(args ...[6]int) {

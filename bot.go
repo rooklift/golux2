@@ -41,12 +41,12 @@ func main_ai(f *kit.Frame) {
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
 			unit.SetQueue(
-				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, false, 1),
-				kit.Action(kit.MOVE, kit.DOWN, 0, 0, false, 1),
-				kit.Action(kit.MOVE, kit.LEFT, 0, 0, true, 2),
-				kit.Action(kit.MOVE, kit.UP, 0, 0, true, 2),
-				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, true, 2),
-				kit.Action(kit.MOVE, kit.DOWN, 0, 0, true, 2),
+				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, 0, 1),
+				kit.Action(kit.MOVE, kit.DOWN, 0, 0, 0, 1),
+				kit.Action(kit.MOVE, kit.LEFT, 0, 0, 1, 2),
+				kit.Action(kit.MOVE, kit.UP, 0, 0, 1, 2),
+				kit.Action(kit.MOVE, kit.RIGHT, 0, 0, 1, 2),
+				kit.Action(kit.MOVE, kit.DOWN, 0, 0, 1, 2),
 			)
 		}
 	}
