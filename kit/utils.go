@@ -2,7 +2,10 @@ package kit
 
 import "strings"
 
-func bool_to_int(b bool) int { if b { return 1 }
+func bool_to_int(b bool) int {
+	if b {
+		return 1
+	}
 	return 0
 }
 
