@@ -4,6 +4,8 @@ import (
 	"math"
 )
 
+// This is all necessary because we do a lazy unmarshal of the env_cfg into a map[string]interface{}
+
 func (self *Frame) CfgFloat(key string) float64 {
 	if iface, ok1 := self.Info.EnvCfg[key]; ok1 {
 		if as_float, ok2 := iface.(float64); ok2 {
