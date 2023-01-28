@@ -14,6 +14,7 @@ func main() {
 
 func bidder(f *kit.Frame) {
 	kit.CreateLog(f.MyPlayerId() + ".log")
+	kit.LogActions(true)
 	f.Bid("MotherMars", 0)
 }
 

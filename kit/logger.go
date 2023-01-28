@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+var logging_actions = false			// Used by send_actions()
+
 var outfile *os.File
 
 func CreateLog(filename string) error {
@@ -15,7 +17,7 @@ func CreateLog(filename string) error {
 	if err != nil {
 		return err
 	}
-	outfile = logfile			// i.e. store it in the private var above
+	outfile = logfile				// i.e. store it in the private var above
 	return nil
 }
 
@@ -25,4 +27,8 @@ func Log(format_string string, args ...interface{}) {
 	}
 	fmt.Fprintf(outfile, format_string, args...)
 	fmt.Fprintf(outfile, "\n")
+}
+
+func LogActions(b bool) {
+	logging_actions = b
 }

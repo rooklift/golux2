@@ -18,8 +18,8 @@ func make_next_frame() *Frame {
 
 	// Set the action variables to their defaults...
 
-	f.bid_string = "{}\n";
-	f.placement_string = "{}\n";
+	f.bid_string = "{}";
+	f.placement_string = "{}";
 	f.factory_actions = make(map[string]int)
 	f.unit_actions = make(map[string][][6]int)
 
