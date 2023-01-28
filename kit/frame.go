@@ -2,9 +2,7 @@ package kit
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
-	"strings"
 )
 
 var decoder = json.NewDecoder(os.Stdin)

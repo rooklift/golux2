@@ -1,5 +1,11 @@
 package kit
 
+import (
+	"encoding/json"
+	"fmt"
+	"strings"
+)
+
 func (self *Unit) SetQueue(args ...[6]int) {
 	var queue [][6]int
 	for _, item := range args {
