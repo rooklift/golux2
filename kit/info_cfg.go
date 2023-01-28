@@ -22,12 +22,12 @@ func (self *Frame) CfgInt(key string) int {
 func (self *Frame) RobotCfgFloat(rtype int, key string) float64 {
 
 	var robotkey string
-	if rtype == HEAVY {
-		robotkey = "HEAVY"
-	} else if rtype == LIGHT {
+	if rtype == LIGHT {
 		robotkey = "LIGHT"
+	} else if rtype == HEAVY {
+		robotkey = "HEAVY"
 	} else {
-		return 0
+		panic("Supplied robot type was neither LIGHT nor HEAVY")
 	}
 
 	cfg_robots := self.Info.EnvCfg["ROBOTS"].(map[string]interface{})
