@@ -13,3 +13,9 @@ Very raw, non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-C
 * Submissions need to be *tar.gz* files containing `main.py` and the compiled file `bot`
 * The `bot` file at least needs its file permissions set (e.g. to 0o777)
 * A Python script is provided which allows Windows users (like me) to automate the whole process
+
+## Notes on internal data structures
+
+* The main data structure is the "Frame", which is simply the JSON message sent by `main.py`, unmarshalled.
+* Since the structure of that is fairly disorganised, "Frame" is disorganised too.
+* Some helper functions are included to quickly get needed items, e.g. `frame.GetBoard()`, `frame.MyFactories()`, etc.
