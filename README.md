@@ -22,7 +22,7 @@ Very raw, non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-C
 
 ## Notes on env_cfg
 
-* We unmarshal the env_cfg into an interface (for my sanity)
+* We unmarshal the `env_cfg` (i.e. game configuration constants) into an interface (for my sanity)
 * To access a specific named item, call `frame.CfgInt(KEY)` or `frame.CfgFloat(KEY)` depending on what type you want back
 * There is no warning if the key doesn't exist, you just get 0 back, *caveat lector*
 * Robot configuration info can be accessed like:
