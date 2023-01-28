@@ -20,7 +20,7 @@ func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 		if frame.Step == 0 {
 			bidder(frame)
 			frame.send_bid()
-		} else if frame.Obs.RealEnvSteps < 0 {
+		} else if frame.RealStep() < 0 {
 			placer(frame)
 			frame.send_placement()
 		} else {
