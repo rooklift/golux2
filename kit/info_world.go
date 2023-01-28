@@ -18,24 +18,25 @@ func (self *Frame) Height() int {
 	return len(self.GetBoard().Rubble[0])
 }
 
-func (self *Frame) BoardASCII() string {				// For logging
-	var elements []string
+func (self *Frame) BoardASCII() string {						// For logging
+	var lines []string
 	board := self.GetBoard()
 	for y := 0; y < self.Height(); y++ {
+		var line []string
 		for x := 0; x < self.Width(); x++ {
-			s := "  "
+			s := " "
 			if board.FactoryOccupancy[x][y] > -1 {
-				s = " @"
+				s = "@"
 			} else if board.Ore[x][y] > 0 {
-				s = " O"
+				s = "O"
 			} else if board.Ice[x][y] > 0 {
-				s = " X"
+				s = "X"
 			} else if board.Rubble[x][y] > 0 {
-				s = " ."
+				s = "."
 			}
-			elements = append(elements, s)
+			line = append(line, s)
 		}
-		elements = append(elements, "\n")
+		lines = append(lines, strings.Join(line, " "))
 	}
-	return strings.Join(elements, "")
+	return strings.Join(lines, "\n")
 }
