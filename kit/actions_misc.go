@@ -46,6 +46,9 @@ func (self *Frame) send_actions() {
 		if err != nil {
 			panic(fmt.Sprintf("%v", err))
 		}
+		if string(js) == "null" {
+			js = []byte("[]")
+		}
 		elements = append(elements, fmt.Sprintf("\"%s\": %s", key, js))
 	}
 
