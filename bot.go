@@ -10,7 +10,8 @@ func main() {
 	kit.Run(bidder, factory_placer, main_ai)
 }
 
-// Each of these can access state and setup actions...
+// Each turn, the correct function (of the 3) will be called
+// and supplied with the current frame...
 
 func bidder(f *kit.Frame) {
 	kit.CreateLog(f.MyPlayerId() + ".log")
