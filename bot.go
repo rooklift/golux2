@@ -20,15 +20,8 @@ func bidder(f *kit.Frame) {
 
 func factory_placer(f *kit.Frame) {
 	if f.CanPlaceFactory() {
-		board := f.GetBoard()
-		for y := 0; y < f.Height(); y++ {
-			for x := 0; x < f.Width(); x++ {
-				if board.ValidSpawnsMask[x][y] {
-					f.PlaceFactory(x, y, 150, 150)
-					return
-				}
-			}
-		}
+		pos := f.RandomSpawn()
+		f.PlaceFactory(pos[0], pos[1], 150, 150)
 	}
 }
 

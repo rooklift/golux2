@@ -1,5 +1,16 @@
 package kit
 
+import (
+	"math/rand"
+	"time"
+)
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+// ------------------------------------------------------------------------------------------------
+
 var frame *Frame
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
