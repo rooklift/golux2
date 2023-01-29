@@ -45,7 +45,7 @@ type Unit struct {
 	Cargo					*Cargo							`json:"cargo"`
 	ActionQueue				[][6]int						`json:"action_queue"`
 
-	Frame					*Frame							// Needed so unit methods can store their actions in the frame
+	Frame					*Frame							`json:"-"`
 }
 
 type Factory struct {
@@ -56,7 +56,7 @@ type Factory struct {
 	Cargo					*Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`
 
-	Frame					*Frame							// Needed so factory methods can store their actions in the frame
+	Frame					*Frame							`json:"-"`
 }
 
 type Cargo struct {
