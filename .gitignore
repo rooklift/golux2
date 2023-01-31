@@ -1,9 +1,7 @@
 
 *.exe
-*.exe~
-log.txt
 *.json
 *.log
 bot
 *.gz
-sub/*
+test_versions/*

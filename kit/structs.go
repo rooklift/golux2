@@ -9,8 +9,6 @@ type Frame struct {
 
 	bid_string				string
 	placement_string		string
-	factory_actions			map[string]int
-	unit_actions			map[string][][6]int
 }
 
 type Info struct {
@@ -41,22 +39,24 @@ type Unit struct {
 	UnitId					string							`json:"unit_id"`				// e.g. "unit_10"
 	Power					int								`json:"power"`
 	UnitType				string							`json:"unit_type"`				// "LIGHT" or "HEAVY"
-	Pos						[2]int							`json:"pos"`
+	Pos						Pos								`json:"pos"`
 	Cargo					*Cargo							`json:"cargo"`
-	ActionQueue				[][6]int						`json:"action_queue"`
+	ActionQueue				[]Action						`json:"action_queue"`
 
 	Frame					*Frame							`json:"-"`
+	Request					[]Action						`json:"-"`
 }
 
 type Factory struct {
 	TeamId					int								`json:"team_id"`				// 0 or 1
 	UnitId					string							`json:"unit_id"`				// e.g. "factory_4"
 	Power					int								`json:"power"`
-	Pos						[2]int							`json:"pos"`
+	Pos						Pos								`json:"pos"`
 	Cargo					*Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`				// e.g. 4 - expected to match UnitId
 
 	Frame					*Frame							`json:"-"`
+	Request					int								`json:"-"`
 }
 
 type Cargo struct {
@@ -67,7 +67,7 @@ type Cargo struct {
 }
 
 type Team struct {
-	TeamId					int								`json:"team_id"`
+	TeamId					int								`json:"team_id"`				// 0 or 1
 	Faction					string							`json:"faction"`
 	Water					int								`json:"water"`					// Not updated after factory placement phase!
 	Metal					int								`json:"metal"`					// Not updated after factory placement phase!
@@ -76,3 +76,7 @@ type Team struct {
 	PlaceFirst				bool							`json:"place_first"`
 	Bid						int								`json:"bid"`
 }
+
+type Pos [2]int
+
+type Action [6]int		// https://github.com/Lux-AI-Challenge/Lux-Design-S2/blob/main/luxai_s2/luxai_s2/spaces/act_space.py

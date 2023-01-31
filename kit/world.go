@@ -1,13 +1,16 @@
 package kit
 
-import "strings"
-
-func (self *Frame) GetBoard() *Board {
-	return self.Obs.Board
-}
+import (
+	"strconv"
+	"strings"
+)
 
 func (self *Frame) RealStep() int {
 	return self.Obs.RealEnvSteps
+}
+
+func (self *Frame) GetBoard() *Board {
+	return self.Obs.Board
 }
 
 func (self *Frame) Width() int {
@@ -25,8 +28,9 @@ func (self *Frame) BoardASCII() string {						// For logging
 		var line []string
 		for x := 0; x < self.Width(); x++ {
 			s := " "
-			if board.FactoryOccupancy[x][y] > -1 {
-				s = "@"
+			factory := self.FactoryAt(Pos{x, y})
+			if factory != nil {
+				s = strconv.Itoa(factory.StrainId)
 			} else if board.Ore[x][y] > 0 {
 				s = "O"
 			} else if board.Ice[x][y] > 0 {

@@ -22,3 +22,11 @@ func (self *Frame) MyTeam() *Team {
 func (self *Frame) TheirTeam() *Team {
 	return self.Obs.Teams[self.TheirPlayerId()]
 }
+
+func (self *Frame) MyPlayerInt() int {
+	return self.MyTeam().TeamId
+}
+
+func (self *Frame) TheirPlayerInt() int {
+	return self.TheirTeam().TeamId
+}

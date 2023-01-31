@@ -3,6 +3,7 @@ package kit
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 var logging_actions = false			// Used by send_actions()
@@ -22,10 +23,18 @@ func CreateLog(filename string) error {
 }
 
 func Log(format_string string, args ...interface{}) {
+	
 	if outfile == nil {
 		return
 	}
-	fmt.Fprintf(outfile, format_string, args...)
+
+	s := fmt.Sprintf(format_string, args...)
+
+	lines := strings.Split(s, "\n")							// We want to display the current turn even for multi-line inputs...
+	prefix := fmt.Sprintf("%3d | ", kframe.RealStep())		// kframe here is our module-scope kframe object
+
+	fmt.Fprintf(outfile, prefix)
+	fmt.Fprintf(outfile, strings.Join(lines, "\n" + prefix))
 	fmt.Fprintf(outfile, "\n")
 }
 

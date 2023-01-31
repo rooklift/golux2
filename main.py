@@ -1,4 +1,4 @@
-# Directly copied from the JS starter kit. Only change: call ./bot instead of node
+# Directly copied from the JS starter kit. Only change: call ./golux2 instead of node
 
 import json
 from subprocess import Popen, PIPE
@@ -94,7 +94,7 @@ def agent(observation, configuration):
     agent_process = agent_processes[observation.player]
     ### Do not edit ###
     if agent_process is None:
-        agent_process = Popen(["./bot"], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=cwd)
+        agent_process = Popen(["./golux2"], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=cwd)
         agent_processes[observation.player] = agent_process
         atexit.register(cleanup_process)
 
