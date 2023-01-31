@@ -88,12 +88,12 @@ type Team struct {
 type Pos [2]int
 
 type Action struct {
-	Type			ActionType
-	Direction		Direction
-	Resource		Resource
-	Amount			int
-	Recycle			int
-	N				int
+	Type					ActionType
+	Direction				Direction
+	Resource				Resource
+	Amount					int
+	Recycle					int
+	N						int
 }
 
 // Thanks to MMJ -- aka themmj on Github
