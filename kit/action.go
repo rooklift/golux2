@@ -1,5 +1,7 @@
 package kit
 
+// Thanks to MMJ -- aka themmj on Github
+
 const (
 
 	MOVE			ActionType = 0
@@ -31,3 +33,30 @@ const (
 	WATER_LICHEN	FactoryActionType = 2
 
 )
+
+// [0]     [1]        [2]       [3]     [4]      [5]
+// ACTION  DIRECTION  RESOURCE  AMOUNT  RECYCLE  N
+
+func MoveAction(direction Direction, recycle int, n int) Action {
+	return Action{MOVE, direction, 0, 0, recycle, n}
+}
+
+func TransferAction(direction Direction, resource Resource, amount int, recycle int, n int) Action {
+	return Action{TRANSFER, direction, resource, amount, recycle, n}
+}
+
+func PickupAction(resource Resource, amount int, recycle int, n int) Action {
+	return Action{PICKUP, 0, resource, amount, recycle, n}
+}
+
+func DigAction(recycle int, n int) Action {
+	return Action{DIG, 0, 0, 0, recycle, n}
+}
+
+func SelfDestructAction() Action {
+	return Action{SELFDESTRUCT, 0, 0, 0, 0, 1}
+}
+
+func RechargeAction(amount int, recycle int, n int) Action {
+	return Action{RECHARGE, 0, 0, amount, recycle, n}
+}

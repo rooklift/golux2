@@ -26,7 +26,7 @@ func AI(f *Frame) {
 
 	if f.RealStep() == 0 {
 		for _, factory := range f.MyFactories() {
-			factory.Act(kit.BUILD_LIGHT)
+			factory.Act(kit.BUILD_LIGHT)							// Other actions are BUILD_HEAVY and WATER_LICHEN
 		}
 	}
 
@@ -36,11 +36,12 @@ func AI(f *Frame) {
 
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
-			unit.AddToRequest(Action{kit.PICKUP, kit.CENTRE, kit.POWER, f.GetCfg().Robots["LIGHT"].BatteryCapacity - unit.Power, 0, 1})
-			unit.AddToRequest(Action{kit.MOVE, kit.LEFT, 0, 0, 2, 1})		// If you understand these numbers
-			unit.AddToRequest(Action{kit.MOVE, kit.UP, 0, 0, 2, 1})			// you understand the action system...
-			unit.AddToRequest(Action{kit.MOVE, kit.RIGHT, 0, 0, 2, 2})
-			unit.AddToRequest(Action{kit.MOVE, kit.DOWN, 0, 0, 2, 2})
+			needed_power := f.GetCfg().Robots["LIGHT"].BatteryCapacity - unit.Power
+			unit.AddToRequest(kit.PickupAction(kit.POWER, needed_power, 0, 1))
+			unit.AddToRequest(kit.MoveAction(kit.LEFT, 2, 1))
+			unit.AddToRequest(kit.MoveAction(kit.UP, 2, 1))
+			unit.AddToRequest(kit.MoveAction(kit.RIGHT, 2, 2))
+			unit.AddToRequest(kit.MoveAction(kit.DOWN, 2, 2))
 		}
 	}
 
@@ -49,7 +50,7 @@ func AI(f *Frame) {
 
 	if f.RealStep() == 100 {
 		for _, unit := range f.MyUnits() {
-			unit.AddToRequest(unit.NaiveTrip(kit.Pos{24,24})...)			// The NaiveTrip() method returns a slice of actions
+			unit.AddToRequest(unit.NaiveTrip(kit.Pos{24,24})...)	// The NaiveTrip() method returns a slice of actions.
 		}
 	}
 	
