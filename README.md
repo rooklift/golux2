@@ -18,7 +18,7 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 
 * The main data structure is the `Frame` type, which is simply the JSON message sent by `main.py`, unmarshalled
 * Since the structure of that is fairly complex, `Frame` is complex too - see `structs.go`
-* NOTE THAT OBJECTS INSIDE THE FRAME ARE NOT VALID IN LATER TURNS - get the current object from the current frame instead.
+* **NOTE THAT OBJECTS INSIDE THE FRAME ARE NOT VALID IN LATER TURNS** - get the current object from the current frame instead.
 * Some helper methods are included to quickly get needed items, e.g. `GetBoard()`, `MyFactories()`, etc
 
 ## Notes on env_cfg
