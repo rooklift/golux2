@@ -1,7 +1,7 @@
 package kit
 
 // Note that in various places pointers are used. To my mind, this makes it easier to ensure that
-// the user always gets the exact same objects in memory, e.g. when asking for AllUnits() which
+// the user always gets the exact same objects in memory, e.g. when asking for AllUnits(), which
 // I think is beneficial...
 //
 // Also, the way actions work is that, at the end of each turn, the frame looks at its own unit and
