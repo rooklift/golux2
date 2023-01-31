@@ -49,7 +49,7 @@ type UnitConfig struct {
 	DigRubbleRemoved				int							`json:"DIG_RUBBLE_REMOVED"`
 	InitPower						int							`json:"INIT_POWER"`
 	MetalCost						int							`json:"METAL_COST"`
-	MoveCost						int							`json:"MOVE_COST"`
+	MoveCost						float64						`json:"MOVE_COST"`
 	PowerCost						int							`json:"POWER_COST"`
 	RubbleAfterDestruction			int							`json:"RUBBLE_AFTER_DESTRUCTION"`
 	RubbleMovementCost				float64						`json:"RUBBLE_MOVEMENT_COST"`
