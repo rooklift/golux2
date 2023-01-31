@@ -2,20 +2,12 @@ package kit
 
 import "encoding/json"
 
-// Note that in various places pointers are used. To my mind, this makes it easier to ensure that
-// the user always gets the exact same objects in memory, e.g. when asking for AllUnits(), which
-// I think is beneficial...
-//
-// Also, the way actions work is that, at the end of each turn, the frame looks at its own unit and
-// factory objects to see if they are requesting actions, so it MUST be those objects that the user
-// applies actions to. 
-
 type Frame struct {
-	Obs						*Obs							`json:"obs"`
+	Obs						Obs								`json:"obs"`
 	Player					string							`json:"player"`
 	RemainingOverageTime	int								`json:"remainingOverageTime"`
 	Step					int								`json:"step"`					// Note: different from real_env_steps
-	Info					*Info							`json:"info"`
+	Info					Info							`json:"info"`
 
 	bid_string				string
 	placement_string		string
@@ -25,7 +17,7 @@ type Frame struct {
 
 type Obs struct {
 	RealEnvSteps			int								`json:"real_env_steps"`
-	Board					*Board							`json:"board"`			
+	Board					Board							`json:"board"`			
 	Units					map[string]map[string]*Unit		`json:"units"`					// e.g. "player_0" --> "unit_10" --> *Unit
 	Factories				map[string]map[string]*Factory	`json:"factories"`				// e.g. "player_0" --> "factory_2" --> *Factory
 	Teams					map[string]*Team				`json:"teams"`
@@ -48,7 +40,7 @@ type Unit struct {
 	Power					int								`json:"power"`
 	UnitType				string							`json:"unit_type"`				// "LIGHT" or "HEAVY"
 	Pos						Pos								`json:"pos"`
-	Cargo					*Cargo							`json:"cargo"`
+	Cargo					Cargo							`json:"cargo"`
 	ActionQueue				[]Action						`json:"action_queue"`
 
 	Frame					*Frame							`json:"-"`
@@ -60,7 +52,7 @@ type Factory struct {
 	UnitId					string							`json:"unit_id"`				// e.g. "factory_4"
 	Power					int								`json:"power"`
 	Pos						Pos								`json:"pos"`
-	Cargo					*Cargo							`json:"cargo"`
+	Cargo					Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`				// e.g. 4 - expected to match UnitId
 
 	Frame					*Frame							`json:"-"`

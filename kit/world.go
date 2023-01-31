@@ -10,7 +10,7 @@ func (self *Frame) RealStep() int {
 }
 
 func (self *Frame) GetBoard() *Board {
-	return self.Obs.Board
+	return &self.Obs.Board
 }
 
 func (self *Frame) Width() int {
