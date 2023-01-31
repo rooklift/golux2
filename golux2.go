@@ -2,10 +2,6 @@ package main
 
 import "golux2/kit"
 
-type Action = kit.Action
-type Frame = kit.Frame
-type Pos = kit.Pos
-
 // Register what 3 functions should be called, for the 3 phases of the game...
 
 func main() {
@@ -14,17 +10,17 @@ func main() {
 
 // ------------------------------------------------------------------------------------------------
 
-func Bidder(f *Frame) {
+func Bidder(f *kit.Frame) {
 	f.Bid("MotherMars", 0)
 }
 
-func Placer(f *Frame) {
+func Placer(f *kit.Frame) {
 	if f.CanPlaceFactory() {
 		f.PlaceFactory(f.RandomSpawn(), 150, 150)
 	}
 }
 
-func AI(f *Frame) {
+func AI(f *kit.Frame) {
 
 	if f.RealStep() == 0 {
 		for _, factory := range f.MyFactories() {
