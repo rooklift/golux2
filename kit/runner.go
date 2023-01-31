@@ -15,14 +15,10 @@ func init() {
 
 // ------------------------------------------------------------------------------------------------
 
-var kframe *Frame						// The kit's frame - not directly accessible by any user calls.
+var kframe *Frame
 var cached_cfg *EnvCfg
 
 var decoder = json.NewDecoder(os.Stdin)
-
-// Decoders are best for streaming very large lines, I guess. Although the docs claim that a Decoder
-// "may read data from r beyond the JSON values requested" it seems that won't happen in practice if
-// the thing being read is a whole {}-surrounded object. See https://github.com/golang/go/issues/3942
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	for {
@@ -68,20 +64,16 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 	}
 	for _, factory := range f.AllFactories() {
 		factory.Frame = f
-		factory.Request = -1
+		factory.Request = -1						// Needed because 0 means "build a light robot"
 	}
 
 	// In the future I might conceivably get main.py to stop sending cfg each turn. We can assume it will not
 	// change between turns, so lets just always use the one we got at the start...
 
 	if old_cfg != nil {
-		f.Info.EnvCfg = nil
-		cpy, _ := json.Marshal(old_cfg)				// Create a copy so the user can't tamper with the original (i.e. if we just copy structs
-		json.Unmarshal(cpy, &f.Info.EnvCfg)			// naively, the maps inside will refer to the same stuff in memory, I believe).
+		f.Info.EnvCfg = old_cfg
 	} else {
-		old_cfg = nil
-		cpy, _ := json.Marshal(f.Info.EnvCfg)
-		json.Unmarshal(cpy, &old_cfg)
+		old_cfg = f.Info.EnvCfg
 	}
 
 	// In the future I might conceivably get main.py to not send valid_spawns_mask once we reach RealStep 0
