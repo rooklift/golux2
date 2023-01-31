@@ -3,7 +3,7 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 ## Notes on main.py and JSON format
 
 * Kaggle expects to use `main.py` as the entry point, which also has to have some magical properties relating to an `agent()` function
-* Here we just use a copy of the JavaScript kit's `main.py` - modified to call `./bot` instead of `node main.js`
+* Here we just use a copy of the JavaScript kit's `main.py` - modified to call the bot instead of `node main.js`
 * Note that the Go code expects the incoming JSON messages to have the complete (non-sparse) arrays provided
 * The JavaScript kit's `main.py` does this
 
