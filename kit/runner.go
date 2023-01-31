@@ -26,9 +26,7 @@ var decoder = json.NewDecoder(os.Stdin)
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	for {
-		new_frame := make_next_frame(kframe, cached_cfg)
-		mangle_frame(kframe)			// Render the old frame unusable so programmers trying to use it notice faster.
-		kframe = new_frame
+		kframe, cached_cfg = make_next_frame(kframe, cached_cfg)
 		if kframe.Step == 0 {
 			bidder(kframe)
 			kframe.send_bid()
@@ -42,7 +40,7 @@ func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	}
 }
 
-func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) *Frame {
+func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 
 	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
 	decoder.Decode(&f)					// the rules are complex and in many cases old stuff can persist; see the literature.
@@ -63,7 +61,7 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) *Frame {
 		}
 	}
 
-	// Fix stuff in the units / factories...
+	// Fix stuff in the units / factories... (note that these are new objects freshly created, there's no persistence between turns)
 
 	for _, unit := range f.AllUnits() {
 		unit.Frame = f
@@ -76,12 +74,14 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) *Frame {
 	// In the future I might conceivably get main.py to stop sending cfg each turn. We can assume it will not
 	// change between turns, so lets just always use the one we got at the start...
 
-	if cached_cfg != nil {
+	if old_cfg != nil {
 		f.Info.EnvCfg = nil
-		cpy, _ := json.Marshal(cached_cfg)			// Create a copy so the user can't tamper with the original (i.e. if we just copy structs
+		cpy, _ := json.Marshal(old_cfg)				// Create a copy so the user can't tamper with the original (i.e. if we just copy structs
 		json.Unmarshal(cpy, &f.Info.EnvCfg)			// naively, the maps inside will refer to the same stuff in memory, I believe).
 	} else {
-		cached_cfg = f.Info.EnvCfg
+		old_cfg = nil
+		cpy, _ := json.Marshal(f.Info.EnvCfg)
+		json.Unmarshal(cpy, &old_cfg)
 	}
 
 	// In the future I might conceivably get main.py to not send valid_spawns_mask once we reach RealStep 0
@@ -93,7 +93,8 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) *Frame {
 
 	// Create cells (technically "nodes") for the A* package...
 
-	return f
+	mangle_frame(old_frame)
+	return f, old_cfg
 }
 
 func mangle_frame(old_frame *Frame) {
