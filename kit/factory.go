@@ -18,6 +18,10 @@ func (self *Factory) HasRequest() bool {
 	return self.Request >= 0
 }
 
+func (self *Factory) IsMine() bool {
+	return self.TeamId == self.Frame.MyPlayerInt()
+}
+
 // ------------------------------------------------------------------------------------------------
 
 func (self *Frame) Bid(faction string, bid int) {
@@ -40,19 +44,6 @@ func (self *Frame) get_factories(playerid string) []*Factory {		// We sort keys 
 	var ret []*Factory
 	for _, key := range keys {
 		ret = append(ret, fact_map[key])
-	}
-	return ret
-}
-
-func (self *Frame) get_factory_spots(playerid string) []Pos {
-	var ret []Pos
-	factories := self.get_factories(playerid)
-	for _, factory := range factories {
-		for x := factory.X() - 1; x <= factory.X() + 1; x++ {
-			for y := factory.Y() - 1; y <= factory.Y() + 1; y++ {
-				ret = append(ret, Pos{x, y})
-			}
-		}
 	}
 	return ret
 }
@@ -112,8 +103,4 @@ func (self *Frame) PotentialSpawns() []Pos {
 func (self *Frame) RandomSpawn() Pos {
 	pots := self.PotentialSpawns()
 	return pots[rand.Intn(len(pots))]
-}
-
-func (self *Factory) IsMine() bool {
-	return self.TeamId == self.Frame.MyPlayerInt()
 }
