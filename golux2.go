@@ -26,7 +26,7 @@ func AI(f *Frame) {
 
 	if f.RealStep() == 0 {
 		for _, factory := range f.MyFactories() {
-			factory.Act(kit.LIGHT)
+			factory.Act(kit.BUILD_LIGHT)
 		}
 	}
 

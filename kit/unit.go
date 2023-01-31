@@ -10,13 +10,13 @@ func (self *Unit) AddToRequest(args ...Action) {
 		return
 	}
 	for _, action := range args {
-		if action[4] < 0 {
-			Log("%v - attempted to submit action with recycle == %d", self.UnitId, action[4])
-			action[4] = 0
+		if action.Recycle < 0 {
+			Log("%v - attempted to submit action with recycle == %d", self.UnitId, action.Recycle)
+			action.Recycle = 0
 		}
-		if action[5] < 1 {
-			Log("%v - attempted to submit action with n == %d", self.UnitId, action[5])
-			action[5] = 1
+		if action.N < 1 {
+			Log("%v - attempted to submit action with n == %d", self.UnitId, action.N)
+			action.N = 1
 		}
 		self.Request = append(self.Request, action)
 	}

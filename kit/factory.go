@@ -6,7 +6,7 @@ import (
 	"sort"
 )
 
-func (self *Factory) Act(action int) {
+func (self *Factory) Act(action FactoryActionType) {
 	self.Request = action
 }
 

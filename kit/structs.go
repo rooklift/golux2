@@ -60,7 +60,7 @@ type Factory struct {
 	StrainId				int								`json:"strain_id"`				// e.g. 4 - expected to match UnitId
 
 	Frame					*Frame							`json:"-"`
-	Request					int								`json:"-"`
+	Request					FactoryActionType				`json:"-"`
 }
 
 type Cargo struct {
@@ -81,6 +81,41 @@ type Team struct {
 	Bid						int								`json:"bid"`
 }
 
+// ------------------------------------------------------------------------------------------------
+
 type Pos [2]int
 
-type Action [6]int		// https://github.com/Lux-AI-Challenge/Lux-Design-S2/blob/main/luxai_s2/luxai_s2/spaces/act_space.py
+type Action struct {
+	Type			ActionType
+	Direction		Direction
+	Resource		Resource
+	Amount			int
+	Recycle			int
+	N				int
+}
+
+func (a *Action) UnmarshalJSON(data []byte) error {
+	var v [6]int
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	a.Type = ActionType(v[0])
+	a.Direction = Direction(v[1])
+	a.Resource = Resource(v[2])
+	a.Amount = v[3]
+	a.Recycle = v[4]
+	a.N = v[5]
+	return nil
+}
+
+func (a Action) MarshalJSON() ([]byte, error) {
+	var v [6]int
+	v[0] = int(a.Type)
+	v[1] = int(a.Direction)
+	v[2] = int(a.Resource)
+	v[3] = a.Amount
+	v[4] = a.Recycle
+	v[5] = a.N
+	return json.Marshal(&v)
+}
