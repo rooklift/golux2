@@ -58,4 +58,6 @@ func AI(f *Frame) {
 			unit.AddToRequest(unit.NaiveTrip(kit.Pos{24,24})...)			// The NaiveTrip() method returns a slice of actions
 		}
 	}
+	
+	// If you don't make any calls to AddToRequest() then nothing is sent for that unit, and so its old queue can survive.
 }
