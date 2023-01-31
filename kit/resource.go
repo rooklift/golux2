@@ -36,6 +36,18 @@ func (self *Frame) AllIce() []Pos {
 	return ret
 }
 
+func (self *Frame) AllOre() []Pos {
+	var ret []Pos
+	for x := 0; x < self.Width(); x++ {
+		for y := 0; y < self.Height(); y++ {
+			if self.OreAt(Pos{x, y}) {
+				ret = append(ret, Pos{x, y})
+			}
+		}
+	}
+	return ret
+}
+
 func (self *Frame) AllRubble() []Pos {
 	var ret []Pos
 	for x := 0; x < self.Width(); x++ {
