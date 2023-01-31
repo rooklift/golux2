@@ -3,23 +3,23 @@ import datetime, os, shutil, subprocess, tarfile, tempfile
 now = datetime.datetime.now()
 outfilename = "submission_{}.tar.gz".format(now.strftime("%Y_%m_%d_%H%M"))
 
-GOOS = subprocess.check_output("go env GOOS").decode().strip()
-GOARCH = subprocess.check_output("go env GOARCH").decode().strip()
+GOOS = subprocess.check_output(["go", "env", "GOOS"]).decode().strip()
+GOARCH = subprocess.check_output(["go", "env", "GOARCH"]).decode().strip()
 
 print("GOOS is {} and GOARCH is {}".format(GOOS, GOARCH))
 print("Setting GOOS to linux and GOARCH to amd64")
 
-subprocess.run("go env -w GOOS=linux")
-subprocess.run("go env -w GOARCH=amd64")
+subprocess.run(["go", "env", "-w", "GOOS=linux"])
+subprocess.run(["go", "env", "-w", "GOARCH=amd64"])
 
 print("Building bot")
 
-subprocess.run("go build golux2")
+subprocess.run(["go", "build", "golux2"])
 
 print("Resetting GOOS and GOARCH to their original values")
 
-subprocess.run("go env -w GOOS={}".format(GOOS))
-subprocess.run("go env -w GOARCH={}".format(GOARCH))
+subprocess.run(["go", "env", "-w", "GOOS={}".format(GOOS)])
+subprocess.run(["go", "env", "-w", "GOARCH={}".format(GOARCH)])
 
 print("Building tar.gz file")
 
