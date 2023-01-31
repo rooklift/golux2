@@ -11,10 +11,6 @@ type Frame struct {
 	placement_string		string
 }
 
-type Info struct {
-	EnvCfg					map[string]interface{}			`json:"env_cfg"`				// Lazy, should we have a fully-specced struct?
-}
-
 type Obs struct {
 	RealEnvSteps			int								`json:"real_env_steps"`
 	Board					*Board							`json:"board"`			

@@ -20,12 +20,3 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 * Since the structure of that is fairly complex, `Frame` is complex too - see `structs.go`
 * **NOTE THAT OBJECTS INSIDE THE FRAME ARE NOT VALID IN LATER TURNS** - get the current object from the current frame instead.
 * Some helper methods are included to quickly get needed items, e.g. `GetBoard()`, `MyFactories()`, etc
-
-## Notes on env_cfg
-
-* We unmarshal the `env_cfg` (i.e. game configuration constants) into an interface (for my sanity)
-* To access a specific named item, call `frame.CfgInt(KEY)` or `frame.CfgFloat(KEY)` depending on what type you want back
-* There is no warning if the key doesn't exist, you just get 0 back, *caveat lector*
-* Robot configuration info can be accessed like:
-* `frame.RobotCfgInt(kit.HEAVY, KEY)` - to get an int from the Heavy cfg
-* `frame.RobotCfgFloat(kit.LIGHT, KEY)` - to get a float from the Light cfg

@@ -71,12 +71,11 @@ func make_next_frame(old_frame *Frame) *Frame {
 		factory.Request = -1
 	}
 
-	// In the future I might conceivably get main.py to stop sending cfg each turn...
+	// In the future I might conceivably get main.py to stop sending cfg each turn. We can assume it will not
+	// change between turns, so lets just always use the one we got at the start...
 
 	if old_frame != nil {
-		if len(f.Info.EnvCfg) < len(old_frame.Info.EnvCfg) {
-			f.Info.EnvCfg = old_frame.Info.EnvCfg
-		}
+		f.Info.EnvCfg = old_frame.Info.EnvCfg
 	}
 
 	// In the future I might conceivably get main.py to not send valid_spawns_mask once we reach RealStep 0
