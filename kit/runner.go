@@ -64,7 +64,7 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 	}
 	for _, factory := range f.AllFactories() {
 		factory.Frame = f
-		factory.Request = -1						// Needed because 0 means "build a light robot"
+		factory.ClearRequest()			// Needed because 0 means "build a light robot"
 	}
 
 	// In the future I might conceivably get main.py to stop sending cfg each turn. We can assume it will not
