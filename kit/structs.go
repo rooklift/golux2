@@ -18,8 +18,8 @@ type Frame struct {
 type Obs struct {
 	RealEnvSteps			int								`json:"real_env_steps"`
 	Board					Board							`json:"board"`			
-	Units					map[string]map[string]*Unit		`json:"units"`					// e.g. "player_0" --> "unit_10" --> *Unit
-	Factories				map[string]map[string]*Factory	`json:"factories"`				// e.g. "player_0" --> "factory_2" --> *Factory
+	Units					map[string]map[string]*Unit		`json:"units"`					// MUST BE POINTER, user sets actions inside the object.
+	Factories				map[string]map[string]*Factory	`json:"factories"`				// MUST BE POINTER, user sets actions inside the object.
 	Teams					map[string]*Team				`json:"teams"`
 }
 
