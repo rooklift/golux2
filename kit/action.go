@@ -1,9 +1,5 @@
 package kit
 
-// With help from MMJ -- aka themmj on Github
-
-import "encoding/json"
-
 type ActionType int
 type Direction int
 type Resource int

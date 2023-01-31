@@ -1,5 +1,7 @@
 package kit
 
+import "encoding/json"
+
 // Note that in various places pointers are used. To my mind, this makes it easier to ensure that
 // the user always gets the exact same objects in memory, e.g. when asking for AllUnits(), which
 // I think is beneficial...
@@ -93,6 +95,8 @@ type Action struct {
 	Recycle			int
 	N				int
 }
+
+// Thanks to MMJ -- aka themmj on Github
 
 func (a *Action) UnmarshalJSON(data []byte) error {
 	var v [6]int
