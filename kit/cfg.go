@@ -3,10 +3,10 @@ package	kit
 // Thanks to MMJ -- aka themmj on Github -- for these definitions...
 
 type Info struct {
-	EnvCfg							*EnvConfig					`json:"env_cfg"`
+	EnvCfg							*EnvCfg						`json:"env_cfg"`
 }
 
-type EnvConfig struct {
+type EnvCfg struct {
 	BiddingSystem					bool						`json:"BIDDING_SYSTEM"`
 	CycleLength						int							`json:"CYCLE_LENGTH"`
 	DayLength						int							`json:"DAY_LENGTH"`
@@ -54,4 +54,8 @@ type UnitConfig struct {
 	RubbleAfterDestruction			int							`json:"RUBBLE_AFTER_DESTRUCTION"`
 	RubbleMovementCost				float64						`json:"RUBBLE_MOVEMENT_COST"`
 	SelfDestructCost				int							`json:"SELF_DESTRUCT_COST"`
+}
+
+func (self *Frame) GetCfg() *EnvCfg {
+	return self.Info.EnvCfg
 }

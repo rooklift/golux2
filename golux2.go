@@ -36,7 +36,7 @@ func AI(f *Frame) {
 
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
-			unit.AddToRequest(Action{kit.PICKUP, kit.CENTRE, kit.POWER, 150 - unit.Power, 0, 1})
+			unit.AddToRequest(Action{kit.PICKUP, kit.CENTRE, kit.POWER, f.GetCfg().Robots["LIGHT"].BatteryCapacity - unit.Power, 0, 1})
 			unit.AddToRequest(Action{kit.MOVE, kit.LEFT, 0, 0, 2, 1})		// If you understand these numbers
 			unit.AddToRequest(Action{kit.MOVE, kit.UP, 0, 0, 2, 1})			// you understand the action system...
 			unit.AddToRequest(Action{kit.MOVE, kit.RIGHT, 0, 0, 2, 2})

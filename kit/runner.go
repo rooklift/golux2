@@ -16,6 +16,8 @@ func init() {
 // ------------------------------------------------------------------------------------------------
 
 var kframe *Frame						// The kit's frame - not directly accessible by any user calls.
+var cached_cfg *EnvCfg
+
 var decoder = json.NewDecoder(os.Stdin)
 
 // Decoders are best for streaming very large lines, I guess. Although the docs claim that a Decoder
@@ -24,7 +26,7 @@ var decoder = json.NewDecoder(os.Stdin)
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	for {
-		new_frame := make_next_frame(kframe)
+		new_frame := make_next_frame(kframe, cached_cfg)
 		mangle_frame(kframe)			// Render the old frame unusable so programmers trying to use it notice faster.
 		kframe = new_frame
 		if kframe.Step == 0 {
@@ -40,7 +42,7 @@ func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 	}
 }
 
-func make_next_frame(old_frame *Frame) *Frame {
+func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) *Frame {
 
 	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
 	decoder.Decode(&f)					// the rules are complex and in many cases old stuff can persist; see the literature.
@@ -74,8 +76,12 @@ func make_next_frame(old_frame *Frame) *Frame {
 	// In the future I might conceivably get main.py to stop sending cfg each turn. We can assume it will not
 	// change between turns, so lets just always use the one we got at the start...
 
-	if old_frame != nil {
-		f.Info.EnvCfg = old_frame.Info.EnvCfg
+	if cached_cfg != nil {
+		f.Info.EnvCfg = nil
+		cpy, _ := json.Marshal(cached_cfg)			// Create a copy so the user can't tamper with the original (i.e. if we just copy structs
+		json.Unmarshal(cpy, &f.Info.EnvCfg)			// naively, the maps inside will refer to the same stuff in memory, I believe).
+	} else {
+		cached_cfg = f.Info.EnvCfg
 	}
 
 	// In the future I might conceivably get main.py to not send valid_spawns_mask once we reach RealStep 0
