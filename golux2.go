@@ -24,13 +24,16 @@ func AI(f *kit.Frame) {
 
 	if f.RealStep() == 0 {
 		for _, factory := range f.MyFactories() {
-			factory.Act(kit.BUILD_LIGHT)							// Other actions are BUILD_HEAVY and WATER_LICHEN
+			factory.Act(kit.BUILD_LIGHT)						// Other actions are BUILD_HEAVY and WATER_LICHEN
 		}
 	}
 
 	// Each turn, each unit can request to change their action queue (though this request can fail if they have no power).
 	// The new action queue can have many actions. To make this easy to do, we provide a helper method, BuildRequest(),
 	// which allows a new action queue to be built up. However, it can also accept more than 1 argument at a time.
+	//
+	// If necessary, you can call unit.ClearRequest() to delete whatever you have built up (this does not remove the
+	// unit's existing action queue, however).
 
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
@@ -38,6 +41,7 @@ func AI(f *kit.Frame) {
 			unit.BuildRequest(kit.PickupAction(kit.POWER, needed_power, 0, 1))
 			unit.BuildRequest(kit.MoveAction(kit.LEFT, 2, 1))
 			unit.BuildRequest(kit.MoveAction(kit.UP, 2, 1))
+			// unit.ClearRequest()								// Try uncommenting this...
 			unit.BuildRequest(kit.MoveAction(kit.RIGHT, 2, 2))
 			unit.BuildRequest(kit.MoveAction(kit.DOWN, 2, 2))
 		}
