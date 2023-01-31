@@ -2,7 +2,7 @@ package kit
 
 import "sort"
 
-func (self *Unit) AddToRequest(args ...Action) {
+func (self *Unit) BuildRequest(args ...Action) {
 
 	// Exceeding 20 length is checked at the time of sending, no need to do it here.
 

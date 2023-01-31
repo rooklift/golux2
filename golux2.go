@@ -29,28 +29,26 @@ func AI(f *kit.Frame) {
 	}
 
 	// Each turn, each unit can request to change their action queue (though this request can fail if they have no power).
-	// The new action queue can have many actions. To make this easy to do, we provide a helper method, AddToRequest(),
+	// The new action queue can have many actions. To make this easy to do, we provide a helper method, BuildRequest(),
 	// which allows a new action queue to be built up. However, it can also accept more than 1 argument at a time.
 
 	if f.RealStep() == 1 {
 		for _, unit := range f.MyUnits() {
 			needed_power := f.GetCfg().Robots["LIGHT"].BatteryCapacity - unit.Power
-			unit.AddToRequest(kit.PickupAction(kit.POWER, needed_power, 0, 1))
-			unit.AddToRequest(kit.MoveAction(kit.LEFT, 2, 1))
-			unit.AddToRequest(kit.MoveAction(kit.UP, 2, 1))
-			unit.AddToRequest(kit.MoveAction(kit.RIGHT, 2, 2))
-			unit.AddToRequest(kit.MoveAction(kit.DOWN, 2, 2))
+			unit.BuildRequest(kit.PickupAction(kit.POWER, needed_power, 0, 1))
+			unit.BuildRequest(kit.MoveAction(kit.LEFT, 2, 1))
+			unit.BuildRequest(kit.MoveAction(kit.UP, 2, 1))
+			unit.BuildRequest(kit.MoveAction(kit.RIGHT, 2, 2))
+			unit.BuildRequest(kit.MoveAction(kit.DOWN, 2, 2))
 		}
 	}
-
-	// Note also that AddToRequest() is not modifying your existing ActionQueue (which can persist for many turns)
-	// but replacing it with a completely new one - which, however, is built up with calls to AddToRequest().
 
 	if f.RealStep() == 100 {
 		for _, unit := range f.MyUnits() {
-			unit.AddToRequest(unit.NaiveTrip(kit.Pos{24,24})...)	// The NaiveTrip() method returns a slice of actions.
+			naive_path := unit.NaiveTrip(kit.Pos{24,24})		// This is likely 2 actions long.
+			unit.BuildRequest(naive_path...)
 		}
 	}
 	
-	// If you don't make any calls to AddToRequest() then nothing is sent for that unit, and so its old queue can survive.
+	// If you don't make any calls to BuildRequest() then nothing is sent for that unit, and so its old queue can survive.
 }
