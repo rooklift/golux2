@@ -21,6 +21,8 @@ type Frame struct {
 	placement_string		string
 }
 
+// For Info object, see cfg.go
+
 type Obs struct {
 	RealEnvSteps			int								`json:"real_env_steps"`
 	Board					*Board							`json:"board"`			
@@ -95,6 +97,11 @@ type Action struct {
 	Recycle					int
 	N						int
 }
+
+type ActionType int
+type Direction int
+type Resource int
+type FactoryActionType int
 
 // Thanks to MMJ -- aka themmj on Github
 

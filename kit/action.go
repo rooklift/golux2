@@ -1,10 +1,5 @@
 package kit
 
-type ActionType int
-type Direction int
-type Resource int
-type FactoryActionType int
-
 const (
 
 	MOVE			ActionType = 0
