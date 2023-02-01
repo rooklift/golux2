@@ -39,7 +39,10 @@ func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame)) {
 func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 
 	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
-	decoder.Decode(&f)					// the rules are complex and in many cases old stuff can persist; see the literature.
+	err := decoder.Decode(&f)			// the rules are complex and in many cases old stuff can persist; see the literature.
+	if err != nil {
+		panic(fmt.Sprintf("%v", err))
+	}
 
 	// Set the action variables to their defaults...
 
@@ -50,8 +53,8 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 
 	f.Obs.Board.FactoryOccupancy = Make2dIntSlice(f.Width(), f.Height(), -1)
 	for _, factory := range f.AllFactories() {
-		for x := factory.X() - 1; x <= factory.X() + 1; x++ {
-			for y := factory.Y() - 1; y <= factory.Y() + 1; y++ {
+		for x := factory.X - 1; x <= factory.X + 1; x++ {
+			for y := factory.Y - 1; y <= factory.Y + 1; y++ {
 				f.Obs.Board.FactoryOccupancy[x][y] = factory.StrainId
 			}
 		}

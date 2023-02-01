@@ -29,7 +29,7 @@ func (self *Frame) Bid(faction string, bid int) {
 }
 
 func (self *Frame) PlaceFactory(pos Pos, metal int, water int) {
-	self.placement_string = fmt.Sprintf("{\"spawn\": [%d,%d], \"metal\": %d, \"water\": %d}", pos.X(), pos.Y(), metal, water)
+	self.placement_string = fmt.Sprintf("{\"spawn\": [%d,%d], \"metal\": %d, \"water\": %d}", pos.X, pos.Y, metal, water)
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -1,7 +1,5 @@
 package kit
 
-import "encoding/json"
-
 type Frame struct {
 	Obs						Obs								`json:"obs"`
 	Player					string							`json:"player"`
@@ -34,29 +32,29 @@ type Board struct {
 	FactoriesPerTeam		int								`json:"factories_per_team"`
 }
 
-type Unit struct {
-	TeamId					int								`json:"team_id"`				// 0 or 1
-	UnitId					string							`json:"unit_id"`				// e.g. "unit_10"
-	Power					int								`json:"power"`
-	UnitType				string							`json:"unit_type"`				// "LIGHT" or "HEAVY"
-	Pos						Pos								`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
-	ActionQueue				[]Action						`json:"action_queue"`
-
-	Frame					*Frame							`json:"-"`
-	Request					[]Action						`json:"-"`
+type Unit struct {			// This has a custom unmarshaller, for which see structs_marshal.go
+	TeamId					int								// 0 or 1
+	UnitId					string							// e.g. "unit_10"
+	Power					int
+	UnitType				string							// "LIGHT" or "HEAVY"
+	Pos
+	Cargo
+	ActionQueue				[]Action
+	
+	Frame					*Frame
+	Request					[]Action
 }
 
-type Factory struct {
-	TeamId					int								`json:"team_id"`				// 0 or 1
-	UnitId					string							`json:"unit_id"`				// e.g. "factory_4"
-	Power					int								`json:"power"`
-	Pos						Pos								`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
-	StrainId				int								`json:"strain_id"`				// e.g. 4 - expected to match UnitId
-
-	Frame					*Frame							`json:"-"`
-	Request					FactoryActionType				`json:"-"`
+type Factory struct {		// This has a custom unmarshaller, for which see structs_marshal.go
+	TeamId					int								// 0 or 1
+	UnitId					string							// e.g. "factory_4"
+	Power					int
+	Pos
+	Cargo
+	StrainId				int								// e.g. 4 - expected to match UnitId
+	
+	Frame					*Frame
+	Request					FactoryActionType
 }
 
 type Cargo struct {
@@ -77,11 +75,12 @@ type Team struct {
 	Bid						int								`json:"bid"`
 }
 
-// ------------------------------------------------------------------------------------------------
+type Pos struct {			// This has a custom unmarshaller, for which see structs_marshal.go
+	X						int
+	Y						int
+}
 
-type Pos [2]int
-
-type Action struct {
+type Action struct {		// This has a custom unmarshaller, for which see structs_marshal.go
 	Type					ActionType
 	Direction				Direction
 	Resource				Resource
@@ -94,31 +93,3 @@ type ActionType int
 type Direction int
 type Resource int
 type FactoryActionType int
-
-// Thanks to MMJ -- aka themmj on Github
-
-func (a *Action) UnmarshalJSON(data []byte) error {
-	var v [6]int
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	a.Type = ActionType(v[0])
-	a.Direction = Direction(v[1])
-	a.Resource = Resource(v[2])
-	a.Amount = v[3]
-	a.Recycle = v[4]
-	a.N = v[5]
-	return nil
-}
-
-func (a Action) MarshalJSON() ([]byte, error) {
-	var v [6]int
-	v[0] = int(a.Type)
-	v[1] = int(a.Direction)
-	v[2] = int(a.Resource)
-	v[3] = a.Amount
-	v[4] = a.Recycle
-	v[5] = a.N
-	return json.Marshal(&v)
-}
