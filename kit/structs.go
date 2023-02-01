@@ -35,28 +35,28 @@ type Board struct {
 }
 
 type Unit struct {
-	TeamId					int								`json:"team_id"`				// 0 or 1
-	UnitId					string							`json:"unit_id"`				// e.g. "unit_10"
-	Power					int								`json:"power"`
-	UnitType				string							`json:"unit_type"`				// "LIGHT" or "HEAVY"
-	Pos						Pos								`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
-	ActionQueue				[]Action						`json:"action_queue"`
-
-	Frame					*Frame							`json:"-"`
-	Request					[]Action						`json:"-"`
+	TeamId					int								// 0 or 1
+	UnitId					string							// e.g. "unit_10"
+	Power					int
+	UnitType				string							// "LIGHT" or "HEAVY"
+	Pos
+	Cargo
+	ActionQueue				[]Action
+	
+	Frame					*Frame
+	Request					[]Action
 }
 
 type Factory struct {
-	TeamId					int								`json:"team_id"`				// 0 or 1
-	UnitId					string							`json:"unit_id"`				// e.g. "factory_4"
-	Power					int								`json:"power"`
-	Pos						Pos								`json:"pos"`
-	Cargo					Cargo							`json:"cargo"`
-	StrainId				int								`json:"strain_id"`				// e.g. 4 - expected to match UnitId
-
-	Frame					*Frame							`json:"-"`
-	Request					FactoryActionType				`json:"-"`
+	TeamId					int								// 0 or 1
+	UnitId					string							// e.g. "factory_4"
+	Power					int
+	Pos
+	Cargo
+	StrainId				int								// e.g. 4 - expected to match UnitId
+	
+	Frame					*Frame
+	Request					FactoryActionType
 }
 
 type Cargo struct {
@@ -78,8 +78,32 @@ type Team struct {
 }
 
 // ------------------------------------------------------------------------------------------------
+// Thanks to MMJ -- aka themmj on Github -- for help with this...
 
-type Pos [2]int
+type Pos struct {
+	X						int
+	Y						int
+}
+
+func (p *Pos) UnmarshalJSON(data []byte) error {
+	var v [2]int
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	p.X = v[0]
+	p.Y = v[1]
+	return nil
+}
+
+func (p Pos) MarshalJSON() ([]byte, error) {
+	var v [2]int
+	v[0] = p.X
+	v[1] = p.Y
+	return json.Marshal(&v)
+}
+
+// ------------------------------------------------------------------------------------------------
 
 type Action struct {
 	Type					ActionType
@@ -94,8 +118,6 @@ type ActionType int
 type Direction int
 type Resource int
 type FactoryActionType int
-
-// Thanks to MMJ -- aka themmj on Github
 
 func (a *Action) UnmarshalJSON(data []byte) error {
 	var v [6]int
@@ -121,4 +143,66 @@ func (a Action) MarshalJSON() ([]byte, error) {
 	v[4] = a.Recycle
 	v[5] = a.N
 	return json.Marshal(&v)
+}
+
+// ------------------------------------------------------------------------------------------------
+// Our Factory and Unit types have some embedded structs for user convenience, but this seems to
+// mean (as far as I can tell) that we need custom unmarshalling for them... (?)
+
+type unit_tmp struct {
+	TeamId					int								`json:"team_id"`
+	UnitId					string							`json:"unit_id"`
+	Power					int								`json:"power"`
+	UnitType				string							`json:"unit_type"`
+	Pos						Pos								`json:"pos"`
+	Cargo					Cargo							`json:"cargo"`
+	ActionQueue				[]Action						`json:"action_queue"`
+}
+
+func (u *Unit) UnmarshalJSON(data []byte) error {
+
+	var v unit_tmp
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+
+	u.TeamId = v.TeamId
+	u.UnitId = v.UnitId
+	u.Power = v.Power
+	u.UnitType = v.UnitType
+	u.Pos = v.Pos
+	u.Cargo = v.Cargo
+	u.ActionQueue = v.ActionQueue
+
+	return nil
+}
+
+// ------------------------------------------------------------------------------------------------
+
+type factory_tmp struct {
+	TeamId					int								`json:"team_id"`
+	UnitId					string							`json:"unit_id"`
+	Power					int								`json:"power"`
+	Pos						Pos								`json:"pos"`
+	Cargo					Cargo							`json:"cargo"`
+	StrainId				int								`json:"strain_id"`
+}
+
+func (fc *Factory) UnmarshalJSON(data []byte) error {
+
+	var v factory_tmp
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+
+	fc.TeamId = v.TeamId
+	fc.UnitId = v.UnitId
+	fc.Power = v.Power
+	fc.Pos = v.Pos
+	fc.Cargo = v.Cargo
+	fc.StrainId = v.StrainId
+
+	return nil
 }
