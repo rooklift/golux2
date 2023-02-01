@@ -20,3 +20,46 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 * Since the structure of that is fairly complex, `Frame` is complex too - see `structs.go`
 * **NOTE THAT OBJECTS INSIDE THE FRAME ARE NOT VALID IN LATER TURNS** - get the current object from the current frame instead
 * Some helper methods are included to quickly get needed items, e.g. `GetBoard()`, `MyFactories()`, etc
+
+## API outline (possibly subject to change, WIP)
+
+```golang
+func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame))
+
+func (self *Frame) Bid(faction string, bid int)
+func (self *Frame) PlaceFactory(pos Pos, metal int, water int)
+func (self *Frame) RealStep() int 
+func (self *Frame) GetBoard() *Board
+func (self *Frame) Width() int
+func (self *Frame) Height() int
+func (self *Frame) MyUnits() []*Unit
+func (self *Frame) TheirUnits() []*Unit
+func (self *Frame) AllUnits() []*Unit
+func (self *Frame) MyFactories() []*Factory
+func (self *Frame) TheirFactories() []*Factory
+func (self *Frame) AllFactories() []*Factory
+func (self *Frame) FactoryByStrain(n int) *Factory
+func (self *Frame) FactoryAt(xy XYer) *Factory
+func (self *Frame) CanPlaceFactory() bool
+func (self *Frame) PotentialSpawns() []Pos
+func (self *Frame) RandomSpawn() Pos
+
+func (self *Unit) BuildRequest(args ...Action)
+func (self *Unit) ClearRequest()
+func (self *Unit) HasRequest() bool
+func (self *Unit) PowerAfterRequest() int
+func (self *Unit) CanAcceptRequest() bool
+func (self *Unit) IsMine() bool
+func (self *Unit) NaiveTrip(other XYer) []Action
+
+func (self *Factory) Act(action FactoryActionType)
+func (self *Factory) ClearRequest()
+func (self *Factory) HasRequest() bool
+func (self *Factory) IsMine() bool
+
+type XYer interface {		// Implemented by Pos, *Unit, and *Factory
+	XY() (int, int)
+}
+
+func Dist(a XYer, b XYer) int
+```
