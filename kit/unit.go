@@ -30,6 +30,14 @@ func (self *Unit) HasRequest() bool {
 	return len(self.Request) > 0
 }
 
+func (self *Unit) PowerAfterRequest() int {						// This assumes there is a request.
+	return self.Power - self.Frame.GetCfg().Robots[self.UnitType].ActionQueuePowerCost
+}
+
+func (self *Unit) CanAcceptRequest() bool {
+	return self.PowerAfterRequest() >= 0
+}
+
 func (self *Unit) IsMine() bool {
 	return self.TeamId == self.Frame.MyPlayerInt()
 }
