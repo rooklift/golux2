@@ -1,7 +1,5 @@
 package kit
 
-import "encoding/json"
-
 type Frame struct {
 	Obs						Obs								`json:"obs"`
 	Player					string							`json:"player"`
@@ -34,7 +32,7 @@ type Board struct {
 	FactoriesPerTeam		int								`json:"factories_per_team"`
 }
 
-type Unit struct {
+type Unit struct {			// This has a custom unmarshaller, for which see structs_marshal.go
 	TeamId					int								// 0 or 1
 	UnitId					string							// e.g. "unit_10"
 	Power					int
@@ -47,7 +45,7 @@ type Unit struct {
 	Request					[]Action
 }
 
-type Factory struct {
+type Factory struct {		// This has a custom unmarshaller, for which see structs_marshal.go
 	TeamId					int								// 0 or 1
 	UnitId					string							// e.g. "factory_4"
 	Power					int
@@ -77,12 +75,12 @@ type Team struct {
 	Bid						int								`json:"bid"`
 }
 
-type Pos struct {
+type Pos struct {			// This has a custom unmarshaller, for which see structs_marshal.go
 	X						int
 	Y						int
 }
 
-type Action struct {
+type Action struct {		// This has a custom unmarshaller, for which see structs_marshal.go
 	Type					ActionType
 	Direction				Direction
 	Resource				Resource

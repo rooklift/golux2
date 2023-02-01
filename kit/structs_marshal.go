@@ -2,6 +2,8 @@ package kit
 
 // Thanks to MMJ -- aka themmj on Github -- for help with this...
 
+import "encoding/json"
+
 // Pos objects are given to us as [2]int, we want {X, Y}
 
 func (p *Pos) UnmarshalJSON(data []byte) error {
