@@ -10,8 +10,8 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 ## Notes on submissions
 
 * Kaggle is running Linux
-* Submissions need to be `tar.gz` files containing `main.py` and the compiled file `bot`
-* The `bot` file at least needs its file permissions set (e.g. to 0o777)
+* Submissions need to be `tar.gz` files containing `main.py` and the compiled file bot
+* The bot file at least needs its file permissions set (e.g. to 0o777)
 * A Python script is provided which allows Windows users (like me) to automate the whole process
 
 ## Notes on internal data structures
@@ -20,6 +20,17 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 * Since the structure of that is fairly complex, `Frame` is complex too - see `structs.go`
 * **NOTE THAT OBJECTS INSIDE THE FRAME ARE NOT VALID IN LATER TURNS** - get the current object from the current frame instead
 * Some helper methods are included to quickly get needed items, e.g. `GetBoard()`, `MyFactories()`, etc
+
+## Pointers vs values
+
+* The `Pos` type should be stored/passed by value
+* Then you can compare one `Pos` to another by simple `==` checking
+* Also, if you get a `Pos` from a `*Unit`, it will be safe to mutate it if you want to
+* `*Unit` and `*Factory` objects should be stored/passed by pointer, because:
+* The API stores new actions in the objects themselves
+* These are then sent to the `lux_s2` referee at the end of each turn
+* If you make copies of the objects, any actions in them won't be seen
+* So just keep pointers to them instead, then you've got the right ones
 
 ## API outline (possibly subject to change, WIP)
 
