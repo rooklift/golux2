@@ -9,6 +9,10 @@ type Frame struct {
 
 	bid_string				string
 	placement_string		string
+
+	all_ice_cache			[]Pos															// Likely worth caching
+	all_ore_cache			[]Pos															// these since they are
+	all_rubble_cache		[]Pos															// expensive to make
 }
 
 // For Info object, see cfg.go

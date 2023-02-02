@@ -25,38 +25,49 @@ func (self *Frame) RubbleAt(xy XYer) int {
 }
 
 func (self *Frame) AllIce() []Pos {
-	var ret []Pos
-	for x := 0; x < self.Width(); x++ {
-		for y := 0; y < self.Height(); y++ {
-			if self.IceAt(Pos{x, y}) {
-				ret = append(ret, Pos{x, y})
+	if self.all_ice_cache == nil {
+		self.all_ice_cache = []Pos{}			// Ensure not nil even if it ends up being empty
+		for x := 0; x < self.Width(); x++ {
+			for y := 0; y < self.Height(); y++ {
+				if self.IceAt(Pos{x, y}) {
+					self.all_ice_cache = append(self.all_ice_cache, Pos{x, y})
+				}
 			}
 		}
 	}
+	ret := make([]Pos, len(self.all_ice_cache))
+	copy(ret, self.all_ice_cache)
 	return ret
 }
 
 func (self *Frame) AllOre() []Pos {
-	var ret []Pos
-	for x := 0; x < self.Width(); x++ {
-		for y := 0; y < self.Height(); y++ {
-			if self.OreAt(Pos{x, y}) {
-				ret = append(ret, Pos{x, y})
+	if self.all_ore_cache == nil {
+		self.all_ore_cache = []Pos{}			// Ensure not nil even if it ends up being empty
+		for x := 0; x < self.Width(); x++ {
+			for y := 0; y < self.Height(); y++ {
+				if self.OreAt(Pos{x, y}) {
+					self.all_ore_cache = append(self.all_ore_cache, Pos{x, y})
+				}
 			}
 		}
 	}
+	ret := make([]Pos, len(self.all_ore_cache))
+	copy(ret, self.all_ore_cache)
 	return ret
 }
 
 func (self *Frame) AllRubble() []Pos {
-	var ret []Pos
-	for x := 0; x < self.Width(); x++ {
-		for y := 0; y < self.Height(); y++ {
-			n := self.RubbleAt(Pos{x, y})
-			if n > 0 {
-				ret = append(ret, Pos{x, y})
+	if self.all_rubble_cache == nil {
+		self.all_rubble_cache = []Pos{}			// Ensure not nil even if it ends up being empty
+		for x := 0; x < self.Width(); x++ {
+			for y := 0; y < self.Height(); y++ {
+				if self.RubbleAt(Pos{x, y}) > 0 {
+					self.all_rubble_cache = append(self.all_rubble_cache, Pos{x, y})
+				}
 			}
 		}
 	}
+	ret := make([]Pos, len(self.all_rubble_cache))
+	copy(ret, self.all_rubble_cache)
 	return ret
 }
