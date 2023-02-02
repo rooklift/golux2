@@ -35,7 +35,12 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 ## API outline (possibly subject to change, WIP)
 
 ```golang
+type XYer interface {		// Implemented by Pos, *Unit, and *Factory
+	XY() (int, int)
+}
+
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame))
+func Dist(a XYer, b XYer) int
 
 func (self *Frame) Bid(faction string, bid int)
 func (self *Frame) PlaceFactory(pos Pos, metal int, water int)
@@ -74,10 +79,4 @@ func (self *Factory) Act(action FactoryActionType)
 func (self *Factory) ClearRequest()
 func (self *Factory) HasRequest() bool
 func (self *Factory) IsMine() bool
-
-type XYer interface {		// Implemented by Pos, *Unit, and *Factory
-	XY() (int, int)
-}
-
-func Dist(a XYer, b XYer) int
 ```
