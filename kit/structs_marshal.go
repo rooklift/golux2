@@ -33,6 +33,8 @@ func (u Unit) MarshalJSON() ([]byte, error) {
 	tmp.Pos = [2]int{u.X, u.Y}
 	tmp.Cargo = u.Cargo
 
+	tmp.ActionQueue = [][6]int{}			// Start with a length-0 slice, rather than nil, so it never gets marshalled to "null"
+
 	for _, item := range u.ActionQueue {
 		tmp.ActionQueue = append(tmp.ActionQueue, [6]int{
 			int(item.Type),
