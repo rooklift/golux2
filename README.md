@@ -40,6 +40,8 @@ type XYer interface {		// Implemented by Pos, *Unit, and *Factory
 }
 
 func Run(bidder func(*Frame), placer func(*Frame), main_ai func(*Frame))
+func CreateLog(filename string) error
+func Log(format_string string, args ...interface{})
 func Dist(a XYer, b XYer) int
 
 func (self *Frame) Bid(faction string, bid int)
