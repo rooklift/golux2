@@ -6,6 +6,11 @@ import "encoding/json"
 
 // Pos objects are given to us as [2]int, we want {X, Y}
 
+// WARNING - we actually cannot include a MarshalJSON() function for Pos as things stand, because
+// we use Pos as an embedded field in our Unit and Factory structs, but such embedded fields promote
+// their methods to the top level, so that MarshalJSON() would be called when marshalling either
+// a Unit or a Factory.
+
 func (p *Pos) UnmarshalJSON(data []byte) error {
 	var v [2]int
 	err := json.Unmarshal(data, &v)
@@ -16,11 +21,6 @@ func (p *Pos) UnmarshalJSON(data []byte) error {
 	p.Y = v[1]
 	return nil
 }
-
-// WARNING - we actually cannot include a MarshalJSON() function for Pos as things stand, because
-// we use Pos as an embedded field in our Unit and Factory structs, but such embedded fields promote
-// their methods to the top level, so that MarshalJSON() would be called when marshalling either
-// a Unit or a Factory.
 
 // Action objects are given to us as [6]int, we want {Type, Direction, Resource, Amount, Recycle, N}
 
