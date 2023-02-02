@@ -9,41 +9,13 @@ import (
 	"encoding/json"
 )
 
+// Our Factory and Unit types have some embedded structs for user convenience, but this seems to
+// mean (as far as I can tell) that we need custom unmarshalling for them... (?)
+
 // WARNING - we actually cannot include a MarshalJSON() function for Pos as things stand, because
 // we use Pos as an embedded field in our Unit and Factory structs, but such embedded fields promote
 // their methods to the top level, so that MarshalJSON() would be called when marshalling either
 // a Unit or a Factory.
-
-// Action objects are given to us as [6]int, we want {Type, Direction, Resource, Amount, Recycle, N}
-
-func (a *Action) UnmarshalJSON(data []byte) error {
-	var v [6]int
-	err := json.Unmarshal(data, &v)
-	if err != nil {
-		return err
-	}
-	a.Type = ActionType(v[0])
-	a.Direction = Direction(v[1])
-	a.Resource = Resource(v[2])
-	a.Amount = v[3]
-	a.Recycle = v[4]
-	a.N = v[5]
-	return nil
-}
-
-func (a Action) MarshalJSON() ([]byte, error) {
-	var v [6]int
-	v[0] = int(a.Type)
-	v[1] = int(a.Direction)
-	v[2] = int(a.Resource)
-	v[3] = a.Amount
-	v[4] = a.Recycle
-	v[5] = a.N
-	return json.Marshal(&v)
-}
-
-// Our Factory and Unit types have some embedded structs for user convenience, but this seems to
-// mean (as far as I can tell) that we need custom unmarshalling for them... (?)
 
 type unit_tmp struct {
 	TeamId					int								`json:"team_id"`
@@ -52,7 +24,7 @@ type unit_tmp struct {
 	UnitType				string							`json:"unit_type"`
 	Pos						[2]int							`json:"pos"`
 	Cargo					Cargo							`json:"cargo"`
-	ActionQueue				[]Action						`json:"action_queue"`
+	ActionQueue				[][6]int						`json:"action_queue"`
 }
 
 func (u *Unit) UnmarshalJSON(data []byte) error {
@@ -70,7 +42,17 @@ func (u *Unit) UnmarshalJSON(data []byte) error {
 	u.Pos.X = v.Pos[0]
 	u.Pos.Y = v.Pos[1]
 	u.Cargo = v.Cargo
-	u.ActionQueue = v.ActionQueue
+	
+	for _, item := range v.ActionQueue {
+		u.ActionQueue = append(u.ActionQueue, Action{
+			Type:		ActionType(item[0]),
+			Direction:	Direction(item[1]),
+			Resource:	Resource(item[2]),
+			Amount:		item[3],
+			Recycle:	item[4],
+			N:			item[5],
+		})
+	}
 
 	return nil
 }

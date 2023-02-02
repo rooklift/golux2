@@ -139,6 +139,7 @@ func (self *Frame) send_actions() {
 	}
 
 	for _, unit := range self.MyUnits() {
+		
 		if len(unit.Request) == 0 {
 			continue
 		}
@@ -146,13 +147,14 @@ func (self *Frame) send_actions() {
 			Log("%v - attempted to set very long (%d) queue", unit.UnitId, len(unit.Request))
 			unit.Request = unit.Request[0:20]
 		}
-		js, err := json.Marshal(unit.Request)
-		if err != nil {
-			panic(fmt.Sprintf("%v", err))
+		
+		var action_queue_elements []string
+		for _, action := range unit.Request {
+			action_queue_elements = append(action_queue_elements,
+						fmt.Sprintf("[%v,%v,%v,%v,%v,%v]", action.Type, action.Direction, action.Resource, action.Amount, action.Recycle, action.N))
 		}
-		if string(js) == "null" {						// Should be impossible as it stands, since we ensure len > 0 above.
-			js = []byte("[]")
-		}
+
+		js := "[" + strings.Join(action_queue_elements, ",") + "]"
 		elements = append(elements, fmt.Sprintf("\"%s\": %s", unit.UnitId, js))
 	}
 
