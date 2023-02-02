@@ -49,21 +49,21 @@ func (u Unit) MarshalJSON() ([]byte, error) {
 
 func (u *Unit) UnmarshalJSON(data []byte) error {
 
-	var v unit_tmp
-	err := json.Unmarshal(data, &v)
+	var tmp unit_tmp
+	err := json.Unmarshal(data, &tmp)
 	if err != nil {
 		return err
 	}
 
-	u.TeamId = v.TeamId
-	u.UnitId = v.UnitId
-	u.Power = v.Power
-	u.UnitType = v.UnitType
-	u.Pos.X = v.Pos[0]
-	u.Pos.Y = v.Pos[1]
-	u.Cargo = v.Cargo
+	u.TeamId = tmp.TeamId
+	u.UnitId = tmp.UnitId
+	u.Power = tmp.Power
+	u.UnitType = tmp.UnitType
+	u.Pos.X = tmp.Pos[0]
+	u.Pos.Y = tmp.Pos[1]
+	u.Cargo = tmp.Cargo
 
-	for _, item := range v.ActionQueue {
+	for _, item := range tmp.ActionQueue {
 		u.ActionQueue = append(u.ActionQueue, Action{
 			Type:		ActionType(item[0]),
 			Direction:	Direction(item[1]),
@@ -102,19 +102,19 @@ func (fc Factory) MarshalJSON() ([]byte, error) {
 
 func (fc *Factory) UnmarshalJSON(data []byte) error {
 
-	var v factory_tmp
-	err := json.Unmarshal(data, &v)
+	var tmp factory_tmp
+	err := json.Unmarshal(data, &tmp)
 	if err != nil {
 		return err
 	}
 
-	fc.TeamId = v.TeamId
-	fc.UnitId = v.UnitId
-	fc.Power = v.Power
-	fc.Pos.X = v.Pos[0]
-	fc.Pos.Y = v.Pos[1]
-	fc.Cargo = v.Cargo
-	fc.StrainId = v.StrainId
+	fc.TeamId = tmp.TeamId
+	fc.UnitId = tmp.UnitId
+	fc.Power = tmp.Power
+	fc.Pos.X = tmp.Pos[0]
+	fc.Pos.Y = tmp.Pos[1]
+	fc.Cargo = tmp.Cargo
+	fc.StrainId = tmp.StrainId
 
 	return nil
 }
