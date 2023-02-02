@@ -41,6 +41,7 @@ type Unit struct {			// This has a custom unmarshaller, for which see structs_ma
 	Cargo
 	ActionQueue				[]Action
 	
+	UnitInt					int																// e.g. 10, will match UnitId  (this is not part of standard Lux API)
 	Frame					*Frame
 	Request					[]Action
 }

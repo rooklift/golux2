@@ -4,6 +4,7 @@ package kit
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 // Our Factory and Unit types have some embedded structs for user convenience, but this seems to
@@ -75,6 +76,8 @@ func (u *Unit) UnmarshalJSON(data []byte) error {
 			N:			item[5],
 		})
 	}
+
+	u.UnitInt, _ = strconv.Atoi(u.UnitId[5:])				// Non-standard item
 
 	return nil
 }
