@@ -2,20 +2,15 @@ package kit
 
 // Thanks to MMJ -- aka themmj on Github -- for help with this...
 
-// TODO / FIXME: really we should have all the MarshalJSON() methods needed to allow the whole
-// Frame to be converted back to its true format.
-
 import (
 	"encoding/json"
 )
 
 // Our Factory and Unit types have some embedded structs for user convenience, but this seems to
 // mean (as far as I can tell) that we need custom unmarshalling for them... (?)
-
-// WARNING - we actually cannot include a MarshalJSON() function for Pos as things stand, because
-// we use Pos as an embedded field in our Unit and Factory structs, but such embedded fields promote
-// their methods to the top level, so that MarshalJSON() would be called when marshalling either
-// a Unit or a Factory.
+//
+// Be careful about implementing MarshalJSON() for inner types like Pos, this can cause issues
+// if you're not careful: https://github.com/golang/go/issues/39175
 
 type unit_tmp struct {
 	TeamId					int								`json:"team_id"`
@@ -25,6 +20,31 @@ type unit_tmp struct {
 	Pos						[2]int							`json:"pos"`
 	Cargo					Cargo							`json:"cargo"`
 	ActionQueue				[][6]int						`json:"action_queue"`
+}
+
+func (u Unit) MarshalJSON() ([]byte, error) {
+
+	var tmp unit_tmp
+
+	tmp.TeamId = u.TeamId
+	tmp.UnitId = u.UnitId
+	tmp.Power = u.Power
+	tmp.UnitType = u.UnitType
+	tmp.Pos = [2]int{u.X, u.Y}
+	tmp.Cargo = u.Cargo
+
+	for _, item := range u.ActionQueue {
+		tmp.ActionQueue = append(tmp.ActionQueue, [6]int{
+			int(item.Type),
+			int(item.Direction),
+			int(item.Resource),
+			item.Amount,
+			item.Recycle,
+			item.N,
+		})
+	}
+
+	return json.Marshal(tmp)
 }
 
 func (u *Unit) UnmarshalJSON(data []byte) error {
@@ -42,7 +62,7 @@ func (u *Unit) UnmarshalJSON(data []byte) error {
 	u.Pos.X = v.Pos[0]
 	u.Pos.Y = v.Pos[1]
 	u.Cargo = v.Cargo
-	
+
 	for _, item := range v.ActionQueue {
 		u.ActionQueue = append(u.ActionQueue, Action{
 			Type:		ActionType(item[0]),
@@ -64,6 +84,20 @@ type factory_tmp struct {
 	Pos						[2]int							`json:"pos"`
 	Cargo					Cargo							`json:"cargo"`
 	StrainId				int								`json:"strain_id"`
+}
+
+func (fc Factory) MarshalJSON() ([]byte, error) {
+
+	var tmp factory_tmp
+
+	tmp.TeamId = fc.TeamId
+	tmp.UnitId = fc.UnitId
+	tmp.Power = fc.Power
+	tmp.Pos = [2]int{fc.X, fc.Y}
+	tmp.Cargo = fc.Cargo
+	tmp.StrainId = fc.StrainId
+
+	return json.Marshal(tmp)
 }
 
 func (fc *Factory) UnmarshalJSON(data []byte) error {
