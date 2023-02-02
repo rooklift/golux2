@@ -33,27 +33,27 @@ type Board struct {
 }
 
 type Unit struct {			// This has a custom unmarshaller, for which see structs_marshal.go
-	TeamId					int								// 0 or 1
-	UnitId					string							// e.g. "unit_10"
+	TeamId					int																// 0 or 1
+	UnitId					string															// e.g. "unit_10"
 	Power					int
-	UnitType				string							// "LIGHT" or "HEAVY"
+	UnitType				string															// "LIGHT" or "HEAVY"
 	Pos
 	Cargo
 	ActionQueue				[]Action
 	
-	Frame					*Frame
+	Frame					*Frame							`json:"-"`
 	Request					[]Action
 }
 
 type Factory struct {		// This has a custom unmarshaller, for which see structs_marshal.go
-	TeamId					int								// 0 or 1
-	UnitId					string							// e.g. "factory_4"
+	TeamId					int																// 0 or 1
+	UnitId					string															// e.g. "factory_4"
 	Power					int
 	Pos
 	Cargo
-	StrainId				int								// e.g. 4 - expected to match UnitId
+	StrainId				int																// e.g. 4 - expected to match UnitId
 	
-	Frame					*Frame
+	Frame					*Frame							`json:"-"`
 	Request					FactoryActionType
 }
 
