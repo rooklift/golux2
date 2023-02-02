@@ -28,7 +28,7 @@ type Board struct {
 	Lichen					[][]int							`json:"lichen"`
 	LichenStrains			[][]int							`json:"lichen_strains"`
 	ValidSpawnsMask			[][]bool						`json:"valid_spawns_mask"`
-	FactoryOccupancy		[][]int															// Theoretically part of the Lux API - but generated client side
+	FactoryOccupancy		[][]int							`json:"-"`						// Theoretically part of the Lux API - but generated client side
 	FactoriesPerTeam		int								`json:"factories_per_team"`
 }
 
@@ -41,7 +41,7 @@ type Unit struct {			// This has a custom unmarshaller, for which see structs_ma
 	Cargo
 	ActionQueue				[]Action
 	
-	Frame					*Frame							`json:"-"`
+	Frame					*Frame
 	Request					[]Action
 }
 
@@ -53,7 +53,7 @@ type Factory struct {		// This has a custom unmarshaller, for which see structs_
 	Cargo
 	StrainId				int																// e.g. 4 - expected to match UnitId
 	
-	Frame					*Frame							`json:"-"`
+	Frame					*Frame
 	Request					FactoryActionType
 }
 
