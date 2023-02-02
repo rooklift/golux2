@@ -75,7 +75,7 @@ type Team struct {
 	Bid						int								`json:"bid"`
 }
 
-type Pos struct {			// This has a custom unmarshaller, for which see structs_marshal.go
+type Pos struct {
 	X						int
 	Y						int
 }
