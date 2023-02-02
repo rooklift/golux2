@@ -3,7 +3,7 @@ package kit
 type Frame struct {
 	Obs						Obs								`json:"obs"`
 	Player					string							`json:"player"`
-	RemainingOverageTime	int								`json:"remainingOverageTime"`
+	RemainingOverageTime	float64							`json:"remainingOverageTime"`
 	Step					int								`json:"step"`					// Note: different from real_env_steps
 	Info					Info							`json:"info"`
 
