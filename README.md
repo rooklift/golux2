@@ -44,11 +44,11 @@ func Dist(a XYer, b XYer) int
 
 func (self *Frame) Bid(faction string, bid int)
 func (self *Frame) PlaceFactory(pos Pos, metal int, water int)
-func (self *Frame) RealStep() int 
 func (self *Frame) GetBoard() *Board
 func (self *Frame) GetCfg() *EnvCfg
 func (self *Frame) Width() int
 func (self *Frame) Height() int
+func (self *Frame) RealStep() int 
 func (self *Frame) MyUnits() []*Unit
 func (self *Frame) TheirUnits() []*Unit
 func (self *Frame) AllUnits() []*Unit
