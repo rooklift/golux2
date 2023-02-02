@@ -86,8 +86,6 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 		f.Obs.Board.ValidSpawnsMask = Make2dBoolSlice(f.Width(), f.Height(), false)
 	}
 
-	// Create cells (technically "nodes") for the A* package...
-
 	mangle_frame(old_frame)
 	return f, old_cfg
 }
