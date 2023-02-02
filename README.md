@@ -55,6 +55,12 @@ func (self *Frame) FactoryAt(xy XYer) *Factory
 func (self *Frame) CanPlaceFactory() bool
 func (self *Frame) PotentialSpawns() []Pos
 func (self *Frame) RandomSpawn() Pos
+func (self *Frame) IceAt(xy XYer) bool
+func (self *Frame) OreAt(xy XYer) bool
+func (self *Frame) RubbleAt(xy XYer) int
+func (self *Frame) AllIce() []Pos
+func (self *Frame) AllOre() []Pos
+func (self *Frame) AllRubble() []Pos
 
 func (self *Unit) BuildRequest(args ...Action)
 func (self *Unit) ClearRequest()
