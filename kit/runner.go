@@ -41,7 +41,7 @@ func make_next_frame(old_frame *Frame, old_cfg *EnvCfg) (*Frame, *EnvCfg) {
 	var f *Frame						// Don't try to unmarshal into some already used object since I'm not sure how that works -
 	err := decoder.Decode(&f)			// the rules are complex and in many cases old stuff can persist; see the literature.
 	if err != nil {
-		panic(fmt.Sprintf("%v", err))
+		panic(err)
 	}
 
 	// Set the action variables to their defaults...
