@@ -6,8 +6,6 @@ import (
 	"strings"
 )
 
-var logging_actions = false			// Used by send_actions()
-
 var outfile *os.File
 
 func CreateLog(filename string) error {
@@ -36,8 +34,4 @@ func Log(format_string string, args ...interface{}) {
 	fmt.Fprintf(outfile, prefix)
 	fmt.Fprintf(outfile, strings.Join(lines, "\n" + prefix))
 	fmt.Fprintf(outfile, "\n")
-}
-
-func LogActions(b bool) {
-	logging_actions = b
 }

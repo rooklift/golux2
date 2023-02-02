@@ -113,9 +113,6 @@ func (self *Frame) send(s string) {
 	}
 	fmt.Printf(s)
 	fmt.Printf("\n")
-	if logging_actions {
-		Log("> %s", s)
-	}
 }
 
 func (self *Frame) send_bid() {
