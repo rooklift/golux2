@@ -1,4 +1,5 @@
-# Directly copied from the JS starter kit. Only change: call ./golux2 instead of node
+# Directly copied from the JS starter kit.
+# Do not edit (unless you really know what you're doing).
 
 import json
 from subprocess import Popen, PIPE
@@ -10,12 +11,6 @@ import atexit
 import os
 import sys
 
-
-### [Edit: DO NOT] Feel free to change this! If above 0, when acting in the normal phase of the game you will receive a list of observations, not just one
-FORWARD_SIM = 0
-
-
-### Don't change below! ###
 agent_processes = defaultdict(lambda : None)
 t = None
 q_stderr = None
@@ -107,28 +102,6 @@ def agent(observation, configuration):
     json_obs = json.loads(observation.obs)
     game_state = process_obs(game_state, observation.step, json_obs)
     obs_inputs = to_json(game_state)
-    if FORWARD_SIM > 0: 
-        # try: 
-        # we only forward sim when bidding and factory placing is done
-        
-        if game_state["real_env_steps"] >= 0:
-            from luxai_s2 import LuxAI_S2
-            from luxai_s2.config import UnitConfig
-            import copy
-            env = LuxAI_S2(collect_stats=False, **copy.deepcopy(configuration["env_cfg"]))
-            env.env_cfg.ROBOTS["LIGHT"] = UnitConfig(**configuration["env_cfg"]["ROBOTS"]["LIGHT"])
-            env.env_cfg.ROBOTS["HEAVY"] = UnitConfig(**configuration["env_cfg"]["ROBOTS"]["HEAVY"])
-            env.reset(seed=0)
-            env.state = env.state.from_obs(game_state, env.env_cfg)
-            env.env_steps = env.state.env_steps
-            obs_inputs = [obs_inputs]
-            for _ in range(FORWARD_SIM):
-                obs, _, _, _ = env.step(dict(player_0=dict(), player_1=dict()))
-                obs_inputs.append(to_json(obs[observation.player]))
-        # except:
-            # pass
-    
-
 
     data = json.dumps(dict(obs=obs_inputs, step=observation.step, remainingOverageTime=observation.remainingOverageTime, player=observation.player, info=configuration))
     agent_process.stdin.write(f"{data}\n".encode())
