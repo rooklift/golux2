@@ -34,17 +34,14 @@ func (self *Frame) PlaceFactory(pos Pos, metal int, water int) {
 
 // ------------------------------------------------------------------------------------------------
 
-func (self *Frame) get_factories(playerid string) []*Factory {		// We sort keys for deterministic order
-	fact_map := self.Obs.Factories[playerid]
-	var keys []string
-	for key, _ := range fact_map {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+func (self *Frame) get_factories(playerid string) []*Factory {
 	var ret []*Factory
-	for _, key := range keys {
-		ret = append(ret, fact_map[key])
+	for _, factory := range self.Obs.Factories[playerid] {
+		ret = append(ret, factory)
 	}
+	sort.Slice(ret, func(i, j int) bool {
+		return ret[i].StrainId < ret[j].StrainId
+	})
 	return ret
 }
 

@@ -44,17 +44,14 @@ func (self *Unit) IsMine() bool {
 
 // ------------------------------------------------------------------------------------------------
 
-func (self *Frame) get_units(playerid string) []*Unit {			// We sort keys for deterministic order
-	unit_map := self.Obs.Units[playerid]
-	var keys []string
-	for key, _ := range unit_map {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+func (self *Frame) get_units(playerid string) []*Unit {
 	var ret []*Unit
-	for _, key := range keys {
-		ret = append(ret, unit_map[key])
+	for _, unit := range self.Obs.Units[playerid] {
+		ret = append(ret, unit)
 	}
+	sort.Slice(ret, func(i, j int) bool {
+		return ret[i].UnitInt < ret[j].UnitInt
+	})
 	return ret
 }
 
