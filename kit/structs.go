@@ -80,7 +80,7 @@ type Pos struct {
 	Y						int
 }
 
-type Action struct {		// This has a custom unmarshaller, for which see structs_marshal.go
+type Action struct {
 	Type					ActionType
 	Direction				Direction
 	Resource				Resource
