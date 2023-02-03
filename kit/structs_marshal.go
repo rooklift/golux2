@@ -31,7 +31,8 @@ func (u Unit) MarshalJSON() ([]byte, error) {
 	tmp.UnitId = u.UnitId
 	tmp.Power = u.Power
 	tmp.UnitType = u.UnitType
-	tmp.Pos = [2]int{u.X, u.Y}
+	tmp.Pos[0] = u.X
+	tmp.Pos[1] = u.Y
 	tmp.Cargo = u.Cargo
 
 	tmp.ActionQueue = [][6]int{}			// Start with a length-0 slice, rather than nil, so it never gets marshalled to "null"
@@ -98,7 +99,8 @@ func (fc Factory) MarshalJSON() ([]byte, error) {
 	tmp.TeamId = fc.TeamId
 	tmp.UnitId = fc.UnitId
 	tmp.Power = fc.Power
-	tmp.Pos = [2]int{fc.X, fc.Y}
+	tmp.Pos[0] = fc.X
+	tmp.Pos[1] = fc.Y
 	tmp.Cargo = fc.Cargo
 	tmp.StrainId = fc.StrainId
 
