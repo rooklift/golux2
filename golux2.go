@@ -47,6 +47,12 @@ func AI(f *kit.Frame) {
 		}
 	}
 
+	if f.RealStep() == 90 {
+		for _, unit := range f.MyUnits() {
+			unit.BuildRequest()									// Submitting a zero-length request is possible.
+		}
+	}
+
 	if f.RealStep() == 100 {
 		for _, unit := range f.MyUnits() {
 			naive_path := unit.NaiveTrip(kit.Pos{24,24})		// This is likely 2 actions long.

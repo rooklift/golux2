@@ -4,6 +4,10 @@ import "sort"
 
 func (self *Unit) BuildRequest(args ...Action) {
 
+	if self.Request == nil {					// Calling this function (even with no args)
+		self.Request = []Action{}				// makes the request not nil, by design.
+	}
+
 	// Exceeding 20 length is checked at the time of sending, no need to do it here.
 
 	if len(args) == 0 {
@@ -27,7 +31,7 @@ func (self *Unit) ClearRequest() {
 }
 
 func (self *Unit) HasRequest() bool {
-	return len(self.Request) > 0
+	return self.Request != nil
 }
 
 func (self *Unit) PowerAfterRequest() int {						// This assumes there is a request.

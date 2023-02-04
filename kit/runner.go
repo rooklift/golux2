@@ -135,7 +135,7 @@ func (self *Frame) send_actions() {
 
 	for _, unit := range self.MyUnits() {
 		
-		if len(unit.Request) == 0 {
+		if unit.Request == nil {						// But note 0-length []Action{} will go through.
 			continue
 		}
 		if len(unit.Request) > 20 {
