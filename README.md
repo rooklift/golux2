@@ -10,7 +10,7 @@ Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/L
 ## Notes on submissions
 
 * Kaggle is running Linux
-* Submissions need to be `tar.gz` files containing `main.py` and the compiled file bot
+* Submissions need to be `tar.gz` files containing `main.py` and the compiled bot
 * The bot file at least needs its file permissions set (e.g. to 0o777)
 * A Python script is provided which allows Windows users (like me) to automate the whole process
 
