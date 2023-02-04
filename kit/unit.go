@@ -10,9 +10,6 @@ func (self *Unit) BuildRequest(args ...Action) {
 
 	// Exceeding 20 length is checked at the time of sending, no need to do it here.
 
-	if len(args) == 0 {
-		return
-	}
 	for _, action := range args {
 		if action.Recycle < 0 {
 			Log("%v - attempted to submit action with recycle == %d", self.UnitId, action.Recycle)
