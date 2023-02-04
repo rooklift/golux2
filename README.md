@@ -1,4 +1,4 @@
-Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/Lux-Design-S2).
+Non-standard Golang kit for [Lux Season 2](https://github.com/Lux-AI-Challenge/Lux-Design-S2). Hopefully finished / stable now.
 
 ## Notes on main.py and JSON format
 
