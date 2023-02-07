@@ -68,6 +68,9 @@ func (self *Frame) FactoryByStrain(n int) *Factory {
 
 func (self *Frame) FactoryAt(xy XYer) *Factory {
 	x, y := xy.XY()
+	if x < 0 || x >= self.Width() || y < 0 || y >= self.Height() {
+		return nil
+	}
 	strain := self.Obs.Board.FactoryOccupancy[x][y]
 	if strain == -1 {
 		return nil
