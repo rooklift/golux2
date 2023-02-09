@@ -15,6 +15,10 @@ func (self *Unit) BuildRequest(args ...Action) {
 			Log("%v - attempted to submit action with recycle == %d", self.UnitId, action.Recycle)
 			action.Recycle = 0
 		}
+		if action.Amount > self.Frame.GetCfg().MaxTransferAmount {
+			Log("%v - attempted to submit action with amount == %d", self.UnitId, action.Amount)
+			action.Amount = self.Frame.GetCfg().MaxTransferAmount;
+		}
 		if action.N < 1 {
 			Log("%v - attempted to submit action with n == %d", self.UnitId, action.N)
 			action.N = 1
