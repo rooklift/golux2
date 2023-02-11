@@ -43,7 +43,7 @@ type UnitConfig struct {
 	BatteryCapacity					int							`json:"BATTERY_CAPACITY"`
 	CargoSpace						int							`json:"CARGO_SPACE"`
 	Charge							int							`json:"CHARGE"`
-	DigLost							int							`json:"DIG_COST"`
+	DigCost							int							`json:"DIG_COST"`
 	DigLichenRemoved				int							`json:"DIG_LICHEN_REMOVED"`
 	DigResourceGain					int							`json:"DIG_RESOURCE_GAIN"`
 	DigRubbleRemoved				int							`json:"DIG_RUBBLE_REMOVED"`
