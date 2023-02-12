@@ -16,7 +16,7 @@ func CreateLog(filename string) error {
 	if err != nil {
 		return err
 	}
-	outfile = logfile				// i.e. store it in the private var above
+	outfile = logfile					// i.e. store it in the private var above
 	return nil
 }
 
@@ -28,8 +28,15 @@ func Log(format_string string, args ...interface{}) {
 
 	s := fmt.Sprintf(format_string, args...)
 
-	lines := strings.Split(s, "\n")							// We want to display the current turn even for multi-line inputs...
-	prefix := fmt.Sprintf("%3d | ", kframe.RealStep())		// kframe here is our module-scope kframe object
+	var prefix string
+
+	if kframe != nil {
+		prefix = fmt.Sprintf("%3d | ", kframe.RealStep())
+	} else {
+		prefix = "??? | ";
+	}
+
+	lines := strings.Split(s, "\n")		// We want to display the current turn even for multi-line inputs...
 
 	fmt.Fprintf(outfile, prefix)
 	fmt.Fprintf(outfile, strings.Join(lines, "\n" + prefix))
